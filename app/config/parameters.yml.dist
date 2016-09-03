@@ -19,3 +19,4 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     elastic_daemon_address: 127.0.0.1
+    elastic_cache_default_ttl: 60
