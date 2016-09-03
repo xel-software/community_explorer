@@ -1,0 +1,3 @@
+elastic_homepage:
+    path:     /
+    defaults: { _controller: ElasticBundle:Default:index }
