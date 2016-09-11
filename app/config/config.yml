@@ -2,11 +2,11 @@ imports:
     - { resource: parameters.yml }
     - { resource: security.yml }
     - { resource: services.yml }
-    - { resource: redis.yml }
     - { resource: framework.yml }
     - { resource: doctrine.yml }
     - { resource: twig.yml }
     - { resource: swiftmailer.yml }
+    - { resource: redis.yml }
     - { resource: "@ElasticBundle/Resources/config/services.yml" }
 
 # Put parameters here that don't need to change on each machine where the app is deployed
