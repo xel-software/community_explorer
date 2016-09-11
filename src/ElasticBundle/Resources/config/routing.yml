@@ -1,3 +1,25 @@
 elastic_homepage:
     path:     /
     defaults: { _controller: ElasticBundle:Overview:index }
+elastic_address:
+    path:     /address/{address}/
+    defaults: { _controller: ElasticBundle:Address:show }
+    requirements:
+        address: "^(XEL)-([a-zA-Z0-9]{4})-([a-zA-Z0-9]{4})-([a-zA-Z0-9]{4})-([a-zA-Z0-9]{5})$"
+elastic_block:
+    path:     /block/{block}/
+    defaults: { _controller: ElasticBundle:Block:show }
+    requirements:
+        block: \d+
+elastic_transaction:
+    path:     /transaction/{transaction}/
+    defaults: { _controller: ElasticBundle:Transaction:show }
+    requirements:
+        address: "^([a-zA-Z0-9]{12,64})$"
+elastic_search:
+    path:     /search/
+    defaults: { _controller: ElasticBundle:Overview:search }
+elastic_contact:
+    path:     /contact/
+    defaults: { _controller: ElasticBundle:Contact:show }
+

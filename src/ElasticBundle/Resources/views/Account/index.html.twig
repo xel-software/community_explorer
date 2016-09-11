@@ -1,0 +1,142 @@
+{% extends 'ElasticBundle::layout.html.twig' %}
+{% block body %}
+
+{% set amountDivider = constant('ElasticBundle\\Service\\Elastic\\ElasticManager::ELASTIC_NQT_DIVIDER') %}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Account info</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if accountInfo is defined and accountInfo and accountInfo|length %}
+                        <table id="elastic-account" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Account Address</th>
+                                <th>Account Name</th>
+                                <th>Unconfirmed Balance (XEL)</th>
+                                <th>Guaranteed Balance (XEL)</th>
+                                <th>Effective Balance (XEL)</th>
+                                <th>Balance (XEL)</th>
+                                <th>Forged</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':accountInfo.accountRS}) }}">{{ accountInfo.accountRS }}</a>
+                                    </td>
+                                    <td>
+                                        {% if accountInfo.name is defined and accountInfo.name %}
+                                            {{ accountInfo.name }}
+                                        {% else %}
+                                            {{ 'N/A' }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ (accountInfo.unconfirmedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (accountInfo.guaranteedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (accountInfo.effectiveBalanceNXT)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (accountInfo.balanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (accountInfo.forgedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Latest 200 transactions</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if accountTransactions.transactions is defined and accountTransactions.transactions and accountTransactions.transactions|length %}
+                        <table id="elastic-account-transactions" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>ID</th>
+                                <th>Sender</th>
+                                <th>Recipient</th>
+                                <th>Age</th>
+                                <th>Amt + Fee</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for accountTransaction in accountTransactions.transactions %}
+                                <tr>
+                                    <td>
+                                        {{ accountTransaction.timestamp }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_transaction',{'transaction': accountTransaction.transaction}) }}">{{ accountTransaction.transaction }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':accountTransaction.senderRS}) }}">{{ accountTransaction.senderRS }}</a>
+                                    </td>
+                                    <td>
+                                        {% if accountTransaction.recipientRS is defined and accountTransaction.recipientRS %}
+                                            <a href="{{ path('elastic_address',{'address':accountTransaction.recipientRS}) }}">{{ accountTransaction.recipientRS }}</a>
+                                        {% else %}
+                                            {{ 'Genesis' }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp) }}
+                                    </td>
+                                    <td>
+                                        {{ (accountTransaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (accountTransaction.feeNQT)/amountDivider|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>ID</th>
+                                <th>Sender</th>
+                                <th>Recipient</th>
+                                <th>Age</th>
+                                <th>Amt + Fee</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block page_scripts %}
+
+<script>
+    $('#elastic-account-transactions').DataTable({
+        "searching": false,
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        "order": [[ 0, "desc" ]]
+    });
+</script>
+
+{% endblock %}

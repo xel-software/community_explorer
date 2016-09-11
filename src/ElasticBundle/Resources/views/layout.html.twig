@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('bundles/elastic/plugins/datatables/dataTables.bootstrap.css') }}">
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('bundles/elastic/dist/css/AdminLTE.min.css') }}">
     <!-- AdminLTE Skins. Choose a skin from the css/skins
@@ -60,17 +62,17 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Block Explorer <span class="caret"></span></a>
                             <ul class="dropdown-menu" role="menu">
-                                <li><a href="#">Overview</a></li>
-                                <li class="divider"></li>
-                                <li><a href="#">Transactions</a></li>
-                                <li><a href="#">Blocks</a></li>
+                                <li><a href="{{ path('elastic_homepage') }}">Overview</a></li>
+                                {#<li class="divider"></li>#}
+                                {#<li><a href="#">Transactions</a></li>#}
+                                {#<li><a href="#">Blocks</a></li>#}
                             </ul>
                         </li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="{{ path('elastic_contact') }}">Contact</a></li>
                     </ul>
-                    <form class="navbar-form navbar-left" role="search">
+                    <form class="navbar-form navbar-left" role="search" action="{{ path('elastic_search') }}" method="post">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="navbar-search-input" placeholder="id / height / tx fullhash">
+                            <input name="input" type="text" class="form-control" id="navbar-search-input" placeholder="address / height / tx id / tx fullhash" style="width: 300px;">
                         </div>
                     </form>
                 </div>
@@ -89,14 +91,14 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        <div class="container">
-            <div class="pull-right hidden-xs">
-                <b>Version</b> 2.3.6
-            </div>
-            <strong>Copyright &copy; 2016 <a href="#">Elastic Community</a>.</strong> All rights
-            reserved.
-        </div>
-        <!-- /.container -->
+        {#<div class="container">#}
+            {#<div class="pull-right hidden-xs">#}
+                {#<b>Version</b> 2.3.6#}
+            {#</div>#}
+            {#<strong>Copyright &copy; 2016 - {{ "now"|date("Y") }} <a href="#">Elastic Community</a>.</strong> All rights#}
+            {#reserved.#}
+        {#</div>#}
+        {#<!-- /.container -->#}
     </footer>
 </div>
 <!-- ./wrapper -->
@@ -105,12 +107,17 @@
 <script src="{{ asset('bundles/elastic/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
 <!-- Bootstrap 3.3.6 -->
 <script src="{{ asset('bundles/elastic/bootstrap/js/bootstrap.min.js') }}"></script>
+<!-- DataTables -->
+<script src="{{ asset('bundles/elastic/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+<script src="{{ asset('bundles/elastic/plugins/datatables/dataTables.bootstrap.min.js') }}"></script>
 <!-- SlimScroll -->
 <script src="{{ asset('bundles/elastic/plugins/slimScroll/jquery.slimscroll.min.js') }}"></script>
 <!-- FastClick -->
 <script src="{{ asset('bundles/elastic/plugins/fastclick/fastclick.js') }}"></script>
 <!-- AdminLTE App -->
 <script src="{{ asset('bundles/elastic/dist/js/app.min.js') }}"></script>
+
+
 
 {% block page_scripts %}{% endblock %}
 

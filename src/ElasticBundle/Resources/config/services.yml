@@ -3,4 +3,16 @@ services:
 #        class: ElasticBundle\Example
 #        arguments: ["@service_id", "plain_value", %parameter%]
     elastic.manager.curl:
-        class: PeerboardBundle\Service\CURLManager
+        class: ElasticBundle\Service\CURLManager
+        arguments: ['@cache', '%elastic_cache_default_ttl%']
+    elastic.manager.elastic:
+        class: ElasticBundle\Service\Elastic\ElasticManager
+        arguments: ['@elastic.manager.curl', '%elastic_daemon_address%', '%elastic_daemon_port%']
+
+#TWIG EXTENSIONS
+    twig.extension.elastic.elastic:
+        class: ElasticBundle\Twig\Extension\ElasticExtension
+        calls:
+            - [ setElasticManager, [ '@elastic.manager.elastic' ] ]
+        tags:
+            - { name: twig.extension }

@@ -1,0 +1,182 @@
+{% extends 'ElasticBundle::layout.html.twig' %}
+{% block body %}
+
+{% set amountDivider = constant('ElasticBundle\\Service\\Elastic\\ElasticManager::ELASTIC_NQT_DIVIDER') %}
+{% set timeOffset = constant('ElasticBundle\\Service\\Elastic\\ElasticManager::ELASTIC_TIME_OFFSET') %}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Transaction info</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if transactionInfo is defined and transactionInfo and transactionInfo|length %}
+                        <table id="elastic-account" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">
+                                        Signature
+                                    </td>
+                                    <td>
+                                        {{ transactionInfo.signature }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Index
+                                    </td>
+                                    <td>
+                                        {{ transactionInfo.transactionIndex }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Type
+                                    </td>
+                                    <td>
+                                        {% if transactionInfo.type is defined and transactionInfo.type %}
+                                            {{ translateTransactionNumericType(transactionInfo.type) }}
+                                        {% else %}
+                                            N/A
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Signature Hash
+                                    </td>
+                                    <td>
+                                        {{ transactionInfo.signatureHash }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Sender
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':transactionInfo.senderRS}) }}">{{ transactionInfo.senderRS }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Recipient
+                                    </td>
+                                    <td>
+                                        {% if transactionInfo.recipientRS is defined %}
+                                            <a href="{{ path('elastic_address',{'address':transactionInfo.recipientRS}) }}">{{ transactionInfo.recipientRS }}</a>
+                                        {% else %}
+                                            Genesis
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Amount + Fee
+                                    </td>
+                                    <td>
+                                        {{ (transactionInfo.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (transactionInfo.feeNQT/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Block ID
+                                    </td>
+                                    <td>
+                                        {{ transactionInfo.block }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Block Date
+                                    </td>
+                                    <td>
+                                        {{ (transactionInfo.blockTimestamp + timeOffset)|date('d-m-Y H:i:s') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Transaction Date
+                                    </td>
+                                    <td>
+                                        {{ (transactionInfo.timestamp + timeOffset)|date('d-m-Y H:i:s') }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Block Height
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_block',{'block':transactionInfo.height}) }}">{{ transactionInfo.height }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Sender Public Key
+                                    </td>
+                                    <td>
+                                        {{ transactionInfo.senderPublicKey }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Confirmations
+                                    </td>
+                                    <td>
+                                        {{ transactionInfo.confirmations }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Full Hash
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_transaction',{'transaction':transactionInfo.fullHash}) }}">{{ transactionInfo.fullHash }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        ID
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_transaction',{'transaction':transactionInfo.transaction}) }}">{{ transactionInfo.transaction }}</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block page_scripts %}
+
+<script>
+    $('#elastic-block-transactions').DataTable({
+        "searching": false,
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        "order": [[ 0, "desc" ]]
+    });
+</script>
+
+{% endblock %}

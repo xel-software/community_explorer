@@ -1,0 +1,221 @@
+{% extends 'ElasticBundle::layout.html.twig' %}
+{% block body %}
+
+{% set amountDivider = constant('ElasticBundle\\Service\\Elastic\\ElasticManager::ELASTIC_NQT_DIVIDER') %}
+{% set timeOffset = constant('ElasticBundle\\Service\\Elastic\\ElasticManager::ELASTIC_TIME_OFFSET') %}
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Block info</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if blockInfo is defined and blockInfo and blockInfo|length %}
+                        <table id="elastic-account" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-muted">
+                                        Payload Length
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.payloadLength }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Total Amount
+                                    </td>
+                                    <td>
+                                        {{ (blockInfo.totalAmountNQT/amountDivider)|number_format(2, '.', ',') }} XEL
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Generation Signature
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.generationSignature }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Generator Public Key
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.generatorPublicKey }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Base Target
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.baseTarget }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Payload Hash
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.payloadHash }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Generator
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':blockInfo.generatorRS}) }}">{{ blockInfo.generatorRS }}</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Txs Count
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.numberOfTransactions }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Block Signature
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.blockSignature }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Total Fee
+                                    </td>
+                                    <td>
+                                        {{ (blockInfo.totalFeeNQT/amountDivider)|number_format(2, '.', ',') }} XEL
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Block ID
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.block }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Block Height
+                                    </td>
+                                    <td>
+                                        {{ blockInfo.height }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Date
+                                    </td>
+                                    <td>
+                                        {{ (blockInfo.timestamp + timeOffset)|date('d-m-Y H:i:s') }}
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Block transactions</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if blockInfo.transactions is defined and blockInfo.transactions and blockInfo.transactions|length %}
+                        <table id="elastic-block-transactions" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>ID</th>
+                                <th>Sender</th>
+                                <th>Recipient</th>
+                                <th>Age</th>
+                                <th>Amt + Fee</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for blockTransaction in blockInfo.transactions %}
+                                <tr>
+                                    <td>
+                                        {{ blockTransaction.timestamp }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_transaction',{'transaction': blockTransaction.transaction}) }}">{{ blockTransaction.transaction }}</a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':blockTransaction.senderRS}) }}">{{ blockTransaction.senderRS }}</a>
+                                    </td>
+                                    <td>
+                                        {% if blockTransaction.recipientRS is defined and blockTransaction.recipientRS %}
+                                            <a href="{{ path('elastic_address',{'address':blockTransaction.recipientRS}) }}">{{ blockTransaction.recipientRS }}</a>
+                                        {% else %}
+                                            {{ 'Genesis' }}
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ (blockTransaction.timestamp + timeOffset)|date('d-m-Y H:i:s') }}
+                                    </td>
+                                    <td>
+                                        {{ (blockTransaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (blockTransaction.feeNQT)/amountDivider|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>ID</th>
+                                <th>Sender</th>
+                                <th>Recipient</th>
+                                <th>Age</th>
+                                <th>Amt + Fee</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+{% block page_scripts %}
+
+<script>
+    $('#elastic-block-transactions').DataTable({
+        "searching": false,
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
+        "order": [[ 0, "desc" ]]
+    });
+</script>
+
+{% endblock %}
