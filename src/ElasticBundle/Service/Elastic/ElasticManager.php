@@ -66,23 +66,30 @@ class ElasticManager
     }
 
     /**
-     * @param null $firstIndex
+     * @param int $firstIndex
      * @param null $lastIndex
      * @param bool|false $includeTransactions
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getBlocks($firstIndex = null, $lastIndex = null, $includeTransactions = false)
+    public function getBlocks($firstIndex = 0, $lastIndex = null, $includeTransactions = false)
     {
 
         $query = 'getBlocks';
 
-        if($firstIndex) {
-            // TODO
+        $firstIndex = (int) $firstIndex;
+        $lastIndex = (int) $lastIndex;
+
+        if($firstIndex === 0 || $firstIndex > 0) {
+
+            $query .= '&firstIndex=' . $firstIndex;
+
         }
 
-        if($lastIndex) {
-            // TODO
+        if($lastIndex && $lastIndex > 0) {
+
+            $query .= '&lastIndex=' . $lastIndex;
+
         }
 
         if($includeTransactions) {

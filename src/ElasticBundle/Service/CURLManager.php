@@ -29,7 +29,7 @@ class CURLManager
      */
     private $container;
 
-    public function __construct(RedisCache $cache, $cacheTTL = 30)
+    public function __construct(RedisCache $cache, $cacheTTL = 1)
     {
 
         $this->cache = $cache;

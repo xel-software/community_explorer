@@ -14,7 +14,7 @@ class OverviewController extends ExtendController
     {
 
         $elasticManager = $this->get('elastic.manager.elastic');
-        $blocks = $elasticManager->getBlocks(null, null, true);
+        $blocks = $elasticManager->getBlocks(0, null, true);
 
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
