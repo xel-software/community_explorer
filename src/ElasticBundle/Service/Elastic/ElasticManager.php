@@ -55,6 +55,16 @@ class ElasticManager
     }
 
     /**
+     * @return ElasticValidator
+     */
+    public function getElasticValidator()
+    {
+
+        return $this->elasticValidator;
+
+    }
+
+    /**
      * @param string $address
      * @param int $port
      */
@@ -398,6 +408,43 @@ class ElasticManager
         }
 
         return $transactionInfo;
+
+    }
+
+    public function getPeers($includePeerInfo = false)
+    {
+
+        $query = 'getPeers';
+
+        if($includePeerInfo) {
+
+            $query .= '&includePeerInfo=true';
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $peersInfo = json_decode($result, true);
+
+        if(!$peersInfo) {
+
+            return false;
+
+        }
+
+        if(isset($peersInfo['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $peersInfo;
 
     }
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace ElasticBundle\Twig\Extension;
+use Doctrine\ORM\EntityManager;
 use ElasticBundle\Service\Elastic\ElasticManager;
 
 
@@ -17,6 +18,11 @@ class ElasticExtension extends \Twig_Extension
     private $elasticManager;
 
     /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    private $em;
+
+    /**
      * @return array
      */
     public function getFunctions()
@@ -24,12 +30,25 @@ class ElasticExtension extends \Twig_Extension
         return [
             new \Twig_SimpleFunction('translateTransactionNumericType', [$this, 'translateTransactionNumericType']),
             new \Twig_SimpleFunction('translateTimestampToHumanReadable', [$this, 'translateTimestampToHumanReadable']),
+            new \Twig_SimpleFunction('translateIpAddressToCountryName', [$this, 'translateIpAddressToCountryName']),
+            new \Twig_SimpleFunction('translateIpAddressToCountryCode', [$this, 'translateIpAddressToCountryCode']),
+            new \Twig_SimpleFunction('getCountryCodeCount', [$this, 'getCountryCodeCount']),
+
+
         ];
     }
 
-    public function setElasticManager(ElasticManager $elasticManager) {
+    public function setElasticManager(ElasticManager $elasticManager)
+    {
 
         $this->elasticManager = $elasticManager;
+
+    }
+
+    public function setEntityManager(EntityManager $entityManager)
+    {
+
+        $this->em = $entityManager;
 
     }
 
@@ -48,7 +67,7 @@ class ElasticExtension extends \Twig_Extension
         $timestamp += ElasticManager::ELASTIC_TIME_OFFSET;
 
         $now = new \DateTime();
-        $ago = \DateTime::createFromFormat('U',$timestamp);
+        $ago = \DateTime::createFromFormat('U', $timestamp);
 
         /** @var \DateTime $diff */
         $diff = $now->diff($ago);
@@ -76,6 +95,90 @@ class ElasticExtension extends \Twig_Extension
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
 
+
+    }
+
+    public function translateIpAddressToCountryName($ip)
+    {
+
+        if(!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
+
+            return 'N/A';
+
+        }
+
+        $geoIpRepo = $this->em->getRepository('ElasticBundle:GeoIp');
+
+        $countryName = $geoIpRepo->findCountryNameByIpAddress($ip);
+
+        if($countryName) {
+
+            return $countryName;
+
+        }
+
+        return 'N/A';
+
+
+    }
+
+    public function translateIpAddressToCountryCode($ip)
+    {
+
+        if(!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
+
+            return 'N/A';
+
+        }
+
+        $geoIpRepo = $this->em->getRepository('ElasticBundle:GeoIp');
+
+        $countryCode = $geoIpRepo->findCountryCodeByIpAddress($ip);
+
+        if($countryCode) {
+
+            return $countryCode;
+
+        }
+
+        return 'N/A';
+
+    }
+
+    public function getCountryCodeCount($peers)
+    {
+
+        if(!$peers) {
+
+            return false;
+
+        }
+
+        $readyArr = [];
+
+        foreach($peers as $peer) {
+
+            $peerCountryCode = $this->translateIpAddressToCountryCode($peer['address']);
+
+            if($peerCountryCode && $peerCountryCode !== 'N/A') {
+
+                if(isset($readyArr[$peerCountryCode['countryCode']])) {
+
+                    ++$readyArr[$peerCountryCode['countryCode']];
+
+                } else {
+
+                    $readyArr[$peerCountryCode['countryCode']] = 1;
+
+                }
+
+            }
+
+        }
+
+        unset($readyArr['N/A']);
+
+        return $readyArr;
 
     }
 

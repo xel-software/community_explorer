@@ -14,5 +14,6 @@ services:
         class: ElasticBundle\Twig\Extension\ElasticExtension
         calls:
             - [ setElasticManager, [ '@elastic.manager.elastic' ] ]
+            - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
         tags:
             - { name: twig.extension }

@@ -29,6 +29,8 @@
     <!-- Project own style -->
     <link rel="stylesheet" href="{{ asset('bundles/elastic/elastic/css/style.css') }}">
 
+    {% block page_css %}{% endblock %}
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -68,6 +70,7 @@
                                 {#<li><a href="#">Blocks</a></li>#}
                             </ul>
                         </li>
+                        <li><a href="{{ path('elastic_peers') }}">Peers</a></li>
                         <li><a href="{{ path('elastic_contact') }}">Contact</a></li>
                     </ul>
                     <form class="navbar-form navbar-left" role="search" action="{{ path('elastic_search') }}" method="post">

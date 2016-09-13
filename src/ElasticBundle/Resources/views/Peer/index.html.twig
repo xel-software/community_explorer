@@ -1,0 +1,127 @@
+{% extends 'ElasticBundle::layout.html.twig' %}
+{% block body %}
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Peers</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        {% if peers and peers.peers|length %}
+                            <table id="elastic-peers" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Address</th>
+                                    <th>Version</th>
+                                    <th>Platform</th>
+                                    <th>Country</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for peer in peers.peers %}
+
+                                    {% set peerCountry = translateIpAddressToCountryName(peer.address) %}
+                                    {% if peerCountry is iterable %}
+                                        {% set peerCountry = peerCountry.countryName %}
+                                    {% endif %}
+
+                                    <tr>
+                                        <td>
+                                            {% if peer.announcedAddress %}{{ peer.announcedAddress }}{% else %}{{ peer.address }}{% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="label label-primary">{{ peer.version }}</span>
+                                        </td>
+                                        <td>
+                                            {{ peer.platform }}
+                                        </td>
+                                        <td{% if peerCountry == 'N/A' %} class="text-muted"{% endif %}>
+                                            {{ peerCountry }}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                <tr>
+                                    <th>Address</th>
+                                    <th>Version</th>
+                                    <th>Platform</th>
+                                    <th>Country</th>
+                                </tr>
+                                </tfoot>
+                            </table>
+                        {% endif %}
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-xs-12">
+                <div id="world-map" style="height: 500px;">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block page_css %}
+    <link rel="stylesheet" href="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.css') }}">
+{% endblock %}
+{% block page_scripts %}
+
+    <script src="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.min.js') }}"></script>
+    <script src="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-world-mill.js') }}"></script>
+
+    <script>
+        $('#elastic-peers').DataTable({
+            "searching": false,
+            "order": [[ 1, "desc" ]]
+        });
+    </script>
+
+    <script>
+
+        $(function(){
+
+            values = {};
+
+            {% set countryCodeCount = getCountryCodeCount(peers.peers) %}
+
+            {% if countryCodeCount is iterable %}
+                {% for key, countryCodeCountRow in countryCodeCount %}
+                    values['{{ key }}'] = '{{ countryCodeCountRow }}';
+                {% endfor %}
+            {% endif %}
+
+            $('#world-map').vectorMap({
+                map: 'world_mill',
+                backgroundColor: '#ecf0f5',
+                regionStyle: {
+                    initial: {
+                        fill: '#CCCCCC'
+                    },
+                    hover: {
+                        fill: "#DDDDDD"
+                    }
+                },
+                series: {
+                    regions: [{
+                        values: values,
+                        scale: ['#C8EEFF', '#0071A4'],
+                        normalizeFunction: 'polynomial'
+                    }]
+                },
+                onRegionTipShow: function(e, el, code) {
+                    if(typeof values[code] !== 'undefined'){
+                        el.html(el.html()+' ('+values[code]+' nodes)');
+                    }
+                }
+            });
+        });
+
+    </script>
+{% endblock %}

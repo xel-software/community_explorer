@@ -93,4 +93,11 @@ class ElasticValidator
 
     }
 
+    public function validateIpAddress($ip)
+    {
+
+        return filter_var($ip, FILTER_VALIDATE_IP);
+
+    }
+
 }

@@ -22,4 +22,7 @@ elastic_search:
 elastic_contact:
     path:     /contact/
     defaults: { _controller: ElasticBundle:Contact:show }
+elastic_peers:
+    path:     /peers/
+    defaults: { _controller: ElasticBundle:Peer:index }
 
