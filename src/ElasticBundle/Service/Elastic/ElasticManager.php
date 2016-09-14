@@ -479,6 +479,37 @@ class ElasticManager
 
     }
 
+    public function getMyInfo()
+    {
+
+        $query = 'getMyInfo';
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $myInfo = json_decode($result, true);
+
+        if(!$myInfo) {
+
+            return false;
+
+        }
+
+        if(isset($myInfo['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $myInfo;
+
+    }
+
     /**
      * @param mixed $input
      * @return int
