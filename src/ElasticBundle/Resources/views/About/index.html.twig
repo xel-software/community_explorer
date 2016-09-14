@@ -1,0 +1,129 @@
+{% extends 'ElasticBundle::layout.html.twig' %}
+{% block body %}
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Bugs / Suggestions / Ideas please contact with us</p>
+            </div>
+            <div class="col-xs-8">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Contact</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="elastic-account" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td class="text-muted">
+                                    Name (Tag)
+                                </td>
+                                <td>
+                                    Elastic (XEL)
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Bitcointalk
+                                </td>
+                                <td>
+                                    <a href="https://bitcointalk.org/index.php?topic=1396233.new">https://bitcointalk.org/index.php?topic=1396233.new</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Reddit
+                                </td>
+                                <td>
+                                    <a href="https://www.reddit.com/r/xel">https://www.reddit.com/r/xel</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Official Website
+                                </td>
+                                <td>
+                                    <a href="http://elastic.pro/">http://elastic.pro/</a>
+                                </td>
+                            </tr>
+
+                            {% if blockchainStatus %}
+                                <tr>
+                                    <td class="text-muted">
+                                        Version
+                                    </td>
+                                    <td>
+                                        <span class="label label-primary">{{ blockchainStatus.version }}</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Last Block
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_block',{'block': blockchainStatus.numberOfBlocks - 1}) }}">{{ blockchainStatus.numberOfBlocks - 1 }}</a>
+                                    </td>
+                                </tr>
+                                {#<tr>#}
+                                    {#<td class="text-muted">#}
+                                        {#Network Start Date#}
+                                    {#</td>#}
+                                    {#<td>#}
+                                        {#{{ ("now"|date('U') - blockchainStatus.time)|date('Y-m-d H:i:s') }}#}
+                                    {#</td>#}
+                                {#</tr>#}
+                                <tr>
+                                    <td class="text-muted">
+                                        Cumulative Difficulty
+                                    </td>
+                                    <td>
+                                        {{ blockchainStatus.cumulativeDifficulty }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Key</th>
+                                <th>Value</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <div class="col-xs-4">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">Logo</h3>&nbsp;&nbsp;<small>(click to download logo pack)</small>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <table id="elastic-account" class="table table-bordered table-striped">
+                            <tbody>
+                            <tr>
+                                <a href="{{ asset('share/elastic-logo.zip') }}" title="Logo Pack"><img class="img-responsive img-thumbnail" src="{{ asset('bundles/elastic/elastic/img/elastic-logo-big.png') }}"/></a>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+{% block page_scripts %}
+{% endblock %}
