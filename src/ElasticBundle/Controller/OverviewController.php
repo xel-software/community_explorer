@@ -30,7 +30,7 @@ class OverviewController extends ExtendController
 
             $input = $request->get('input');
 
-            if(!$input) {
+            if($input === false || $input === null) {
 
                 throw $this->createNotFoundException();
 
