@@ -52,13 +52,13 @@ class GeoIp
 
     /**
      * @var int
-     * @ORM\Column(name="ip_start_num", type="integer")
+     * @ORM\Column(name="ip_start_num", type="bigint", options={"unsigned"=true})
      */
     private $ipStartNum;
 
     /**
      * @var int
-     * @ORM\Column(name="ip_end_num", type="integer")
+     * @ORM\Column(name="ip_end_num", type="bigint", options={"unsigned"=true})
      */
     private $ipEndNum;
 
