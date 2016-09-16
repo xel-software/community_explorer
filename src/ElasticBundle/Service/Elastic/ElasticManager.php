@@ -26,7 +26,7 @@ class ElasticManager
     const INPUT_DATA_TYPE_ADDRESS_RS = 3;
 
     // TODO delete offset when Elastic wallet will be fixed
-    const ELASTIC_TIME_OFFSET = 1451610000;
+    const ELASTIC_TIME_OFFSET = 1385294399;
 
     /**
      * @var string
@@ -507,6 +507,37 @@ class ElasticManager
         }
 
         return $myInfo;
+
+    }
+
+    public function getTime()
+    {
+
+        $query = 'getTime';
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $time = json_decode($result, true);
+
+        if(!$time) {
+
+            return false;
+
+        }
+
+        if(isset($time['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $time;
 
     }
 
