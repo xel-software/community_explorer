@@ -181,7 +181,7 @@
                                         {{ (blockTransaction.timestamp + timeOffset)|date('d-m-Y H:i:s') }}
                                     </td>
                                     <td>
-                                        {{ (blockTransaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (blockTransaction.feeNQT)/amountDivider|number_format(2, '.', ',') }}
+                                        {{ (blockTransaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (blockTransaction.feeNQT/amountDivider)|number_format(2, '.', ',') }}
                                     </td>
                                 </tr>
                             {% endfor %}
