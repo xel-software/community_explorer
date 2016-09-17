@@ -18,6 +18,8 @@
                                     <th>Version</th>
                                     <th>Platform</th>
                                     <th>Country</th>
+                                    <th>Last seen</th>
+                                    <th>State</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -41,6 +43,12 @@
                                         <td{% if peerCountry == 'N/A' %} class="text-muted"{% endif %}>
                                             {{ peerCountry }}
                                         </td>
+                                        <td>
+                                            {{ translateTimestampToHumanReadable(peer.lastUpdated, false) }}
+                                        </td>
+                                        <td>
+                                            {% if peer.state == 1 %}<span class="label label-success">CONNECTED</span>{% else %}<span class="label label-default">DISCONNECTED</span>{% endif %}
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -50,6 +58,8 @@
                                     <th>Version</th>
                                     <th>Platform</th>
                                     <th>Country</th>
+                                    <th>Last seen</th>
+                                    <th>State</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -79,7 +89,7 @@
     <script>
         $('#elastic-peers').DataTable({
             "searching": false,
-            "order": [[ 1, "desc" ]]
+            "order": [[ 5, "asc" ]]
         });
     </script>
 

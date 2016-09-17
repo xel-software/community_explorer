@@ -101,7 +101,7 @@ class ElasticExtension extends \Twig_Extension
             }
         }
 
-        if (!$full) $string = array_slice($string, 0, 1);
+        if (!$full) $string = array_slice($string, 0, 2);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
 
 
