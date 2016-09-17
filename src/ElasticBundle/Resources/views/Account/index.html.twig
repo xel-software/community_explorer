@@ -104,7 +104,7 @@
                                         {% endif %}
                                     </td>
                                     <td>
-                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp) }}
+                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp, true) }}
                                     </td>
                                     <td>
                                         {{ (accountTransaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (accountTransaction.feeNQT/amountDivider)|number_format(2, '.', ',') }}

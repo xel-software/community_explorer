@@ -31,7 +31,7 @@
                                         <a href="{{ path('elastic_block',{'block': block.height}) }}">{{ block.height }}</a>
                                     </td>
                                     <td>
-                                        {{ translateTimestampToHumanReadable(block.timestamp) }}
+                                        {{ translateTimestampToHumanReadable(block.timestamp, true) }}
                                     </td>
                                     <td>
                                         {{ block.transactions|length }}
@@ -92,7 +92,7 @@
                                         <a href="{{ path('elastic_address',{'address':generator.accountRS}) }}">{{ generator.accountRS }}</a>
                                     </td>
                                     <td>
-                                        {{ translateHitTimeToHumanReadable(generator.hitTime) }}
+                                        {{ translateHitTimeToHumanReadable(generator.hitTime, true) }}
                                     </td>
                                 </tr>
                             {% endfor %}
@@ -140,7 +140,7 @@
                                         <a href="{{ path('elastic_transaction',{'transaction': transaction.transaction}) }}">{{ transaction.transaction }}</a>
                                     </td>
                                     <td>
-                                        {{ translateTimestampToHumanReadable(transaction.timestamp) }}
+                                        {{ translateTimestampToHumanReadable(transaction.timestamp, true) }}
                                     </td>
                                     <td>
                                         {{ (transaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (transaction.feeNQT/amountDivider)|number_format(2, '.', ',') }}
