@@ -167,11 +167,12 @@ class ElasticManager
     }
 
     /**
-     * @param $address
+     * @param string $address
+     * @param bool $includeEffectiveBalance
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getAccount($address)
+    public function getAccount($address, $includeEffectiveBalance = false)
     {
 
         if(!$this->elasticValidator->validateAddress($address)) {
@@ -181,6 +182,12 @@ class ElasticManager
         }
 
         $query = 'getAccount&account=' . $address;
+
+        if($includeEffectiveBalance) {
+
+            $query .= '&includeEffectiveBalance=true';
+
+        }
 
         $result = $this->curlManager->getURL($this->daemonAddress . $query);
 
@@ -209,13 +216,73 @@ class ElasticManager
     }
 
     /**
-     * @param $address
+     * @param string|null $address
      * @param int $firstIndex
      * @param int $lastIndex
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getAccountTransactions($address, $firstIndex = 0, $lastIndex = 199)
+    public function getBlockchainTransactions($address = null, $firstIndex = 0, $lastIndex = 199)
+    {
+
+        $query = 'getBlockchainTransactions';
+
+        if($address && $this->elasticValidator->validateAddress($address)) {
+
+            $query .= '&account=' . $address;
+
+        }
+
+        $firstIndex = (int) $firstIndex;
+        $lastIndex = (int) $lastIndex;
+
+        if($firstIndex === 0 || $firstIndex > 0) {
+
+            $query .= '&firstIndex=' . $firstIndex;
+
+        }
+
+        if($lastIndex > 0) {
+
+            $query .= '&lastIndex=' . $lastIndex;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $blockchainTransactions = json_decode($result, true);
+
+        if(!$blockchainTransactions) {
+
+            return false;
+
+        }
+
+        if(isset($blockchainTransactions['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $blockchainTransactions;
+
+    }
+
+    /**
+     * @param $address
+     * @param bool $includeTransactions
+     * @param int $firstIndex
+     * @param int $lastIndex
+     * @return bool|mixed
+     * @throws \Exception
+     */
+    public function getAccountBlocks($address, $includeTransactions = false, $firstIndex = 0, $lastIndex = 199)
     {
 
         if(!$this->elasticValidator->validateAddress($address)) {
@@ -224,10 +291,16 @@ class ElasticManager
 
         }
 
-        $query = 'getAccountTransactions&account=' . $address;
+        $query = 'getAccountBlocks&account=' . $address;
 
         $firstIndex = (int) $firstIndex;
         $lastIndex = (int) $lastIndex;
+
+        if($includeTransactions) {
+
+            $query .= '&includeTransactions=true';
+
+        }
 
         if($firstIndex === 0 || $firstIndex > 0) {
 
