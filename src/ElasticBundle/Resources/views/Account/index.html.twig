@@ -6,6 +6,7 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
+
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Account info</h3>
@@ -16,43 +17,71 @@
                         <table id="elastic-account" class="table table-bordered table-striped">
                             <thead>
                             <tr>
-                                <th>Account Address</th>
-                                <th>Account Name</th>
-                                <th>Unconfirmed Balance (XEL)</th>
-                                <th>Guaranteed Balance (XEL)</th>
-                                <th>Effective Balance (XEL)</th>
-                                <th>Balance (XEL)</th>
-                                <th>Forged</th>
+                                <th>Key</th>
+                                <th>Value</th>
                             </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <a href="{{ path('elastic_address',{'address':accountInfo.accountRS}) }}">{{ accountInfo.accountRS }}</a>
-                                    </td>
-                                    <td>
-                                        {% if accountInfo.name is defined and accountInfo.name %}
-                                            {{ accountInfo.name }}
-                                        {% else %}
-                                            {{ 'N/A' }}
-                                        {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ (accountInfo.unconfirmedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
-                                    </td>
-                                    <td>
-                                        {{ (accountInfo.guaranteedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
-                                    </td>
-                                    <td>
-                                        {{ (accountInfo.effectiveBalanceNXT)|number_format(2, '.', ',') }}
-                                    </td>
-                                    <td>
-                                        {{ (accountInfo.balanceNQT/amountDivider)|number_format(2, '.', ',') }}
-                                    </td>
-                                    <td>
-                                        {{ (accountInfo.forgedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Account Address
+                                </td>
+                                <td>
+                                    <a href="{{ path('elastic_address',{'address':accountInfo.accountRS}) }}">{{ accountInfo.accountRS }}</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Account Name
+                                </td>
+                                <td>
+                                    {% if accountInfo.name is defined and accountInfo.name %}
+                                        {{ accountInfo.name }}
+                                    {% else %}
+                                        {{ 'N/A' }}
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Unconfirmed Balance (XEL)
+                                </td>
+                                <td>
+                                    {{ (accountInfo.unconfirmedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Guaranteed Balance (XEL)
+                                </td>
+                                <td>
+                                    {{ (accountInfo.guaranteedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Effective Balance (XEL)
+                                </td>
+                                <td>
+                                    {{ (accountInfo.effectiveBalanceNXT)|number_format(2, '.', ',') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Balance (XEL)
+                                </td>
+                                <td>
+                                    {{ (accountInfo.balanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Forged
+                                </td>
+                                <td>
+                                    {{ (accountInfo.forgedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     {% endif %}
