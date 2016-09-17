@@ -35,10 +35,18 @@
                                             {% if peer.announcedAddress %}{{ peer.announcedAddress }}{% else %}{{ peer.address }}{% endif %}
                                         </td>
                                         <td>
-                                            <span class="label label-primary">{{ peer.version }}</span>
+                                            {% if peer.version is defined and peer.version %}
+                                                <span class="label label-primary">{{ peer.version }}</span>
+                                            {% else %}
+                                                <span class="text-muted">N/A</span>
+                                            {% endif %}
                                         </td>
                                         <td>
-                                            {{ peer.platform }}
+                                            {% if peer.platform is defined and peer.platform %}
+                                                {{ peer.platform }}
+                                            {% else %}
+                                                <span class="text-muted">N/A</span>
+                                            {% endif %}
                                         </td>
                                         <td{% if peerCountry == 'N/A' %} class="text-muted"{% endif %}>
                                             {{ peerCountry }}
