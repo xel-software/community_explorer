@@ -44,34 +44,10 @@
                             </tr>
                             <tr>
                                 <td class="text-muted">
-                                    Unconfirmed Balance (XEL)
+                                    Actual Balance / Unconfirmed / Guaranteed / Effective
                                 </td>
                                 <td>
-                                    {{ (accountInfo.unconfirmedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">
-                                    Guaranteed Balance (XEL)
-                                </td>
-                                <td>
-                                    {{ (accountInfo.guaranteedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">
-                                    Effective Balance (XEL)
-                                </td>
-                                <td>
-                                    {{ (accountInfo.effectiveBalanceNXT)|number_format(2, '.', ',') }}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="text-muted">
-                                    Balance (XEL)
-                                </td>
-                                <td>
-                                    {{ (accountInfo.balanceNQT/amountDivider)|number_format(2, '.', ',') }}
+                                    {{ (accountInfo.balanceNQT/amountDivider)|number_format(2, '.', ',') }} / <span class="text-muted">{{ (accountInfo.unconfirmedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}</span> / <span class="text-muted">{{ (accountInfo.guaranteedBalanceNQT/amountDivider)|number_format(2, '.', ',') }}</span> / <span class="text-muted">{{ (accountInfo.effectiveBalanceNXT)|number_format(2, '.', ',') }}</span>
                                 </td>
                             </tr>
                             <tr>

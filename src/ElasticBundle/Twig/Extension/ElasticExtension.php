@@ -32,6 +32,7 @@ class ElasticExtension extends \Twig_Extension
             new \Twig_SimpleFunction('translateTimestampToHumanReadable', [$this, 'translateTimestampToHumanReadable']),
             new \Twig_SimpleFunction('translateIpAddressToCountryName', [$this, 'translateIpAddressToCountryName']),
             new \Twig_SimpleFunction('translateIpAddressToCountryCode', [$this, 'translateIpAddressToCountryCode']),
+            new \Twig_SimpleFunction('translateHitTimeToHumanReadable', [$this, 'translateHitTimeToHumanReadable']),
             new \Twig_SimpleFunction('getCountryCodeCount', [$this, 'getCountryCodeCount']),
 
 
@@ -62,7 +63,15 @@ class ElasticExtension extends \Twig_Extension
     public function translateTimestampToHumanReadable($timestamp, $full = true)
     {
 
+        if(!is_numeric($timestamp)) {
+
+            return 'N/A';
+
+        }
+
         // TODO delete offset when Elastic wallet will be fixed
+
+        $timestamp = (int) $timestamp;
 
         $timestamp += ElasticManager::ELASTIC_TIME_OFFSET;
 
@@ -94,6 +103,59 @@ class ElasticExtension extends \Twig_Extension
 
         if (!$full) $string = array_slice($string, 0, 1);
         return $string ? implode(', ', $string) . ' ago' : 'just now';
+
+
+    }
+
+    public function translateHitTimeToHumanReadable($timestamp, $full = true)
+    {
+
+        if(!is_numeric($timestamp)) {
+
+            return 'N/A';
+
+        }
+
+        // TODO delete offset when Elastic wallet will be fixed
+
+        $timestamp = (int) $timestamp;
+
+        $timestamp += ElasticManager::ELASTIC_TIME_OFFSET;
+
+        $now = new \DateTime();
+        $later = \DateTime::createFromFormat('U', $timestamp);
+
+        if($later < $now) {
+
+            return 'now';
+
+        }
+
+        /** @var \DateTime $diff */
+        $diff = $later->diff($now);
+
+        $diff->w = floor($diff->d / 7);
+        $diff->d -= $diff->w * 7;
+
+        $string = array(
+            'y' => 'year',
+            'm' => 'month',
+            'w' => 'w',
+            'd' => 'd',
+            'h' => 'h',
+            'i' => 'm',
+            's' => 's',
+        );
+        foreach ($string as $k => &$v) {
+            if ($diff->$k) {
+                $v = $diff->$k . ' ' . $v;
+            } else {
+                unset($string[$k]);
+            }
+        }
+
+        if (!$full) $string = array_slice($string, 0, 1);
+        return $string ? implode(', ', $string) : 'now';
 
 
     }

@@ -340,6 +340,43 @@ class ElasticManager
 
     }
 
+    public function getNextBlockGenerators($limit = 10)
+    {
+
+        $query = 'getNextBlockGenerators';
+
+        if($limit && is_numeric($limit)) {
+
+            $limit = (int) $limit;
+            $query .= '&limit=' . $limit;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query, 10);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $nextBlockGenerators = json_decode($result, true);
+
+        if(!$nextBlockGenerators) {
+
+            return false;
+
+        }
+
+        if(isset($nextBlockGenerators['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $nextBlockGenerators;
+
+    }
 
     public function getBlockByHeight($blockHeight, $includeTransactions = false)
     {
@@ -488,6 +525,43 @@ class ElasticManager
     {
 
         $query = 'getPeers';
+
+        if($includePeerInfo) {
+
+            $query .= '&includePeerInfo=true';
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $peersInfo = json_decode($result, true);
+
+        if(!$peersInfo) {
+
+            return false;
+
+        }
+
+        if(isset($peersInfo['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $peersInfo;
+
+    }
+
+    public function getInboundPeers($includePeerInfo = false)
+    {
+
+        $query = 'getInboundPeers';
 
         if($includePeerInfo) {
 

@@ -15,11 +15,14 @@ class OverviewController extends ExtendController
 
         $elasticManager = $this->get('elastic.manager.elastic');
         $blocks = $elasticManager->getBlocks(0, null, true);
+
+        $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
 //        $time = $elasticManager->getTime();
 //        $diff = (new \DateTime())->getTimestamp() - $time['time'];
 
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
+            'nextBlockGenerators' => $nextBlockGenerators
         ]);
     }
 
