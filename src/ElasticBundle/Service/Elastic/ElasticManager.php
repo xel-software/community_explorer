@@ -521,7 +521,7 @@ class ElasticManager
 
     }
 
-    public function getPeers($includePeerInfo = false)
+    public function getPeers($includePeerInfo = false, $active = false, $state = null)
     {
 
         $query = 'getPeers';
@@ -529,6 +529,29 @@ class ElasticManager
         if($includePeerInfo) {
 
             $query .= '&includePeerInfo=true';
+
+        }
+
+        if($active) {
+
+            $query .= '&active=true';
+
+        }
+
+        if($state) {
+
+            $state = strtoupper($state);
+
+            switch($state) {
+
+                case 'CONNECTED':
+                case 'DISCONNECTED':
+                case 'NON_CONNECTED':
+                {
+                    $query .= '&state=' . $state;
+                } break;
+
+            }
 
         }
 

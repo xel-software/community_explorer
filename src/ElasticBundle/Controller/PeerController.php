@@ -14,7 +14,7 @@ class PeerController extends ExtendController
     {
 
         $elasticManager = $this->get('elastic.manager.elastic');
-        $peers = $elasticManager->getPeers(true);
+        $peers = $elasticManager->getPeers(true, true);
 
         return $this->render('ElasticBundle:Peer:index.html.twig',[
             'peers' => $peers,
