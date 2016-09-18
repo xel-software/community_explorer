@@ -55,7 +55,7 @@
                                             {{ translateTimestampToHumanReadable(peer.lastUpdated, false) }}
                                         </td>
                                         <td>
-                                            {% if peer.state == 1 %}<span class="label label-success">CONNECTED</span>{% else %}<span class="label label-default">DISCONNECTED</span>{% endif %}
+                                            <span class="text-muted">N/A</span>{#{% if peer.state == 1 or peer.state == 0 %}<span class="label label-success">CONNECTED</span>{% else %}<span class="label label-default">DISCONNECTED</span>{% endif %}#}
                                         </td>
                                     </tr>
                                 {% endfor %}
