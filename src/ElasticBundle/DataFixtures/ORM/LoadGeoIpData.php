@@ -70,7 +70,8 @@ class LoadRoleData implements FixtureInterface, OrderedFixtureInterface
 
                 if($geoIpRepo->findOneBy(['ipStartNum' => sprintf("%u", ip2long($row[0]))])) {
 
-                    echo ('Already saved, omitting');
+                    echo ('Already saved, omitting' . PHP_EOL);
+                    $manager->clear();
                     continue;
 
                 }
