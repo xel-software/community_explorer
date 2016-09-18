@@ -7,7 +7,7 @@ services:
         arguments: ['@cache', '%elastic_cache_default_ttl%']
     elastic.manager.elastic:
         class: ElasticBundle\Service\Elastic\ElasticManager
-        arguments: ['@elastic.manager.curl', '%elastic_daemon_address%', '%elastic_daemon_port%']
+        arguments: ['@elastic.manager.curl', '%elastic_daemon_address%', '%elastic_daemon_port%', '%elastic_main_account_passphrase%']
 
 #TWIG EXTENSIONS
     twig.extension.elastic.elastic:

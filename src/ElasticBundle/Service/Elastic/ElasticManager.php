@@ -37,6 +37,8 @@ class ElasticManager
 
     private $elasticValidator;
 
+    private $mainAccountPassphrase;
+
     /**
      * @var \ElasticBundle\Service\CURLManager
      */
@@ -45,14 +47,16 @@ class ElasticManager
     /**
      * @param CURLManager $curlManager
      * @param string $daemonAddress
+     * @param string $mainAccountPassphrase
      * @param int $daemonPort
      */
-    public function __construct(CURLManager $curlManager, $daemonAddress, $daemonPort)
+    public function __construct(CURLManager $curlManager, $daemonAddress, $daemonPort, $mainAccountPassphrase)
     {
 
         $this->setElasticDaemonAddress($daemonAddress, $daemonPort);
         $this->daemonPort = $daemonPort;
         $this->curlManager = $curlManager;
+        $this->mainAccountPassphrase = $mainAccountPassphrase;
         $this->elasticValidator = new ElasticValidator();
 
     }
@@ -749,6 +753,138 @@ class ElasticManager
         return $myInfo;
 
     }
+
+    public function sendMoney($address, $amount, $fee = 1, $deadline = 1440)
+    {
+
+        if(!$this->elasticValidator->validateAddress($address)) {
+
+            return false;
+
+        }
+
+        if(!is_numeric($amount)) {
+
+            return false;
+
+        }
+
+        if(!is_numeric($fee)) {
+
+            return false;
+
+        }
+
+        if(!is_numeric($deadline)) {
+
+            return false;
+
+        }
+
+        $amount = (int) $amount;
+        $amountNQT = $amount * self::ELASTIC_NQT_DIVIDER;
+        $fee = (int) $fee;
+        $feeNQT = $fee * self::ELASTIC_NQT_DIVIDER;
+
+        $deadline = (int) $deadline;
+
+        $request = 'sendMoney';
+        $query = '';
+
+        if($address) {
+
+            if(strlen($query) === 0) {
+
+                $query .= 'recipient=' . $address;
+
+            } else {
+
+                $query .= '&recipient=' . $address;
+
+            }
+
+        }
+
+        if($amountNQT) {
+
+            if(strlen($query) === 0) {
+
+                $query .= 'amountNQT=' . $amountNQT;
+
+            } else {
+
+                $query .= '&amountNQT=' . $amountNQT;
+
+            }
+
+
+        }
+
+        if($feeNQT) {
+
+            if(strlen($query) === 0) {
+
+                $query .= 'feeNQT=' . $feeNQT;
+
+            } else {
+
+                $query .= '&feeNQT=' . $feeNQT;
+
+            }
+
+        }
+
+        if($deadline) {
+
+            if(strlen($query) === 0) {
+
+                $query .= 'deadline=' . $deadline;
+
+            } else {
+
+                $query .= '&deadline=' . $deadline;
+
+            }
+
+
+        }
+
+        if(strlen($query) === 0) {
+
+            $query .= 'secretPhrase=' . $this->mainAccountPassphrase;
+
+        } else {
+
+            $query .= '&secretPhrase=' . $this->mainAccountPassphrase;
+
+        }
+
+        $result = $this->curlManager->getURLByPostMethod($this->daemonAddress . $request, $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $sendMoney = json_decode($result, true);
+
+        if(!$sendMoney) {
+
+            return false;
+
+        }
+
+        if(isset($sendMoney['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $sendMoney;
+
+    }
+
 
     public function getTime()
     {

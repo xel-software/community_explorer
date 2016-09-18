@@ -17,6 +17,8 @@ class OverviewController extends ExtendController
         $blocks = $elasticManager->getBlocks(0, 199, true);
 
         $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
+        $sendMoneyResult = $elasticManager->sendMoney('XEL-MSJU-ENL3-GFX6-FFPX3', 1);
+
 //        $time = $elasticManager->getTime();
 //        $diff = (new \DateTime())->getTimestamp() - $time['time'];
 
