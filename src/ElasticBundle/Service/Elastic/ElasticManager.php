@@ -86,11 +86,11 @@ class ElasticManager
      * @param int $firstIndex
      * @param null $lastIndex
      * @param bool|false $includeTransactions
-     * @param bool $cache
+     * @param int|null $cache
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getBlocks($firstIndex = 0, $lastIndex = null, $includeTransactions = false, $cacheTTL = true)
+    public function getBlocks($firstIndex = 0, $lastIndex = null, $includeTransactions = false, $cacheTTL = null)
     {
 
         $query = 'getBlocks';
