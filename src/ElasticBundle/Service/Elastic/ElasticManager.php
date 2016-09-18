@@ -86,10 +86,11 @@ class ElasticManager
      * @param int $firstIndex
      * @param null $lastIndex
      * @param bool|false $includeTransactions
+     * @param bool $cache
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getBlocks($firstIndex = 0, $lastIndex = null, $includeTransactions = false)
+    public function getBlocks($firstIndex = 0, $lastIndex = null, $includeTransactions = false, $cacheTTL = true)
     {
 
         $query = 'getBlocks';
@@ -115,7 +116,7 @@ class ElasticManager
 
         }
 
-        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+        $result = $this->curlManager->getURL($this->daemonAddress . $query, $cacheTTL ? $cacheTTL : null);
 
         if(!$result) {
 

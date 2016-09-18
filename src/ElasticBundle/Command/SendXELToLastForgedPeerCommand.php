@@ -27,7 +27,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
         $container          = $this->getContainer();
         $elasticManager     = $container->get('elastic.manager.elastic');
-        $blocks             = $elasticManager->getBlocks(0,1);
+        $blocks             = $elasticManager->getBlocks(0,1,false,1);
 
         $output->writeln('Trying to send...');
 
