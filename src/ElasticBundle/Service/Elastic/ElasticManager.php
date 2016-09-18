@@ -33,6 +33,8 @@ class ElasticManager
      */
     private $daemonAddress;
 
+    private $daemonPort;
+
     private $elasticValidator;
 
     /**
@@ -49,6 +51,7 @@ class ElasticManager
     {
 
         $this->setElasticDaemonAddress($daemonAddress, $daemonPort);
+        $this->daemonPort = $daemonPort;
         $this->curlManager = $curlManager;
         $this->elasticValidator = new ElasticValidator();
 
@@ -578,6 +581,73 @@ class ElasticManager
         }
 
         return $peersInfo;
+
+    }
+
+    public function getPeer($ipAddress)
+    {
+
+        $query = 'getPeer';
+
+        if(!$this->elasticValidator->validateIpAddress($ipAddress)) {
+
+            return false;
+
+        }
+
+        $query .= '&peer=' . $ipAddress;
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $peerInfo = json_decode($result, true);
+
+        if(!$peerInfo) {
+
+            return false;
+
+        }
+
+        if(isset($peerInfo['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $peerInfo;
+
+    }
+
+    public function isPeerUp($ipAddress)
+    {
+
+        if(!$this->elasticValidator->validateIpAddress($ipAddress)) {
+
+            return false;
+
+        }
+
+        $result = shell_exec("nmap -p {$this->daemonPort} -PN {$ipAddress}");
+
+        if(!$result && !trim($result)) {
+
+
+            return false;
+
+        }
+
+        if(strpos($result, $this->daemonPort . '/tcp open') !== false) {
+
+            return true;
+
+        }
+
+        return false;
 
     }
 
