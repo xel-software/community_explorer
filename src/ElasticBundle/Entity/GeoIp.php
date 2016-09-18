@@ -8,7 +8,11 @@ use Gedmo\Mapping\Annotation as Gedmo;
 /**
  * Role
  *
- * @ORM\Table(name="GeoIp")
+ * @ORM\Table(name="GeoIp", indexes={
+ *     @ORM\Index(name="ip_start_end_num", columns={"ip_start_num", "ip_end_num"}),
+ *     @ORM\Index(name="ip_start_num", columns={"ip_start_num"}),
+ *     @ORM\Index(name="ip_end_num", columns={"ip_end_num"}),
+ * })
  * @ORM\Entity(repositoryClass="ElasticBundle\Entity\GeoIpRepository")
  */
 class GeoIp
