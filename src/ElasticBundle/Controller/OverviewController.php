@@ -17,7 +17,6 @@ class OverviewController extends ExtendController
         $blocks = $elasticManager->getBlocks(0, null, true);
 
         $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
-        $peer = $elasticManager->getPeer('54.159.100.251');
 //        $time = $elasticManager->getTime();
 //        $diff = (new \DateTime())->getTimestamp() - $time['time'];
 
