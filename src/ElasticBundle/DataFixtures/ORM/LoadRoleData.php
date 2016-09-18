@@ -59,12 +59,21 @@ class LoadRoleData implements FixtureInterface, OrderedFixtureInterface
 
             $count = 0;
 
+            $geoIpRepo = $manager->getRepository('ElasticBundle:GeoIp');
+
             $handle = fopen($path, 'r');
 
             while (($row = fgetcsv($handle, 10000, ',')) !== FALSE)
             {
 
                 echo($row[0] . PHP_EOL);
+
+                if($geoIpRepo->findOneBy(['ipStartNum' => sprintf("%u", ip2long($row[0]))])) {
+
+                    echo ('Already saved, omitting');
+                    continue;
+
+                }
 
                 $geoIp = new GeoIp();
                 $geoIp->setCountryCode($row[2]);
@@ -82,6 +91,12 @@ class LoadRoleData implements FixtureInterface, OrderedFixtureInterface
 
                     $manager->flush();
                     $manager->clear();
+
+                }
+
+                if($count > 100000) {
+
+                    break;
 
                 }
             }
