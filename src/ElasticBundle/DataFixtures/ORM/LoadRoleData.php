@@ -94,7 +94,7 @@ class LoadRoleData implements FixtureInterface, OrderedFixtureInterface
 
                 }
 
-                if($count > 100000) {
+                if($count > 50000) {
 
                     break;
 
