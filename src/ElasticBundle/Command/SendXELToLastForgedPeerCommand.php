@@ -40,7 +40,6 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
         if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][0]['generatorRS'])) {
 
-            //block.generatorRS
             $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], 1);
 
             if(!$result) {
@@ -55,6 +54,28 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
             exit;
 
         }
+
+        if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][1]['generatorRS'])) {
+
+            if($blocks['blocks'][1]['height'] % 2 === 0) {
+
+                $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], 1);
+
+                if(!$result) {
+
+                    $output->writeln("Could not sent transaction to this account, exiting.");
+
+                }
+
+            }
+
+        } else {
+
+            $output->writeln("Can't validate last block forged, exiting.");
+            exit;
+
+        }
+
 
         $output->writeln('DONE');
 
