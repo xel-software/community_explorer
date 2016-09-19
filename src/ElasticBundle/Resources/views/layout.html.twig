@@ -94,14 +94,21 @@
     </div>
     <!-- /.content-wrapper -->
     <footer class="main-footer">
-        {#<div class="container">#}
-            {#<div class="pull-right hidden-xs">#}
-                {#<b>Version</b> 2.3.6#}
-            {#</div>#}
-            {#<strong>Copyright &copy; 2016 - {{ "now"|date("Y") }} <a href="#">Elastic Community</a>.</strong> All rights#}
-            {#reserved.#}
-        {#</div>#}
-        {#<!-- /.container -->#}
+        <div class="container">
+            <div class="col-xs-12 col-lg-6">
+                {% if not getMyInfo() %}
+                    <div class="progress progress-xs progress-striped active" style="margin-top:5px;margin-bottom:0px;">
+                        <div class="progress-bar progress-bar-primary" style="width: 100%"></div>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="col-xs-12 col-lg-6 center-block">
+                {% if not getMyInfo() %}
+                    <span class="label label-primary pull-left">Explorer is updated to the newest Elastic version. Will be back operational as soon as possible.</span>
+                {% endif %}
+            </div>
+        </div>
+        <!-- /.container -->
     </footer>
 </div>
 <!-- ./wrapper -->

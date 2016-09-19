@@ -724,12 +724,18 @@ class ElasticManager
 
     }
 
-    public function getMyInfo()
+    public function getMyInfo($cacheTTL = null)
     {
 
         $query = 'getMyInfo';
 
-        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+        if(!is_null($cacheTTL)) {
+
+            $cacheTTL = (int) $cacheTTL;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query, $cacheTTL);
 
         if(!$result) {
 

@@ -34,8 +34,7 @@ class ElasticExtension extends \Twig_Extension
             new \Twig_SimpleFunction('translateIpAddressToCountryCode', [$this, 'translateIpAddressToCountryCode']),
             new \Twig_SimpleFunction('translateHitTimeToHumanReadable', [$this, 'translateHitTimeToHumanReadable']),
             new \Twig_SimpleFunction('getCountryCodeCount', [$this, 'getCountryCodeCount']),
-
-
+            new \Twig_SimpleFunction('getMyInfo', [$this, 'getMyInfo']),
         ];
     }
 
@@ -63,7 +62,7 @@ class ElasticExtension extends \Twig_Extension
     public function translateTimestampToHumanReadable($timestamp, $full = true)
     {
 
-        if(!is_numeric($timestamp)) {
+        if (!is_numeric($timestamp)) {
 
             return 'N/A';
 
@@ -71,7 +70,7 @@ class ElasticExtension extends \Twig_Extension
 
         // TODO delete offset when Elastic wallet will be fixed
 
-        $timestamp = (int) $timestamp;
+        $timestamp = (int)$timestamp;
 
         $timestamp += ElasticManager::ELASTIC_TIME_OFFSET;
 
@@ -110,7 +109,7 @@ class ElasticExtension extends \Twig_Extension
     public function translateHitTimeToHumanReadable($timestamp, $full = true)
     {
 
-        if(!is_numeric($timestamp)) {
+        if (!is_numeric($timestamp)) {
 
             return 'N/A';
 
@@ -118,14 +117,14 @@ class ElasticExtension extends \Twig_Extension
 
         // TODO delete offset when Elastic wallet will be fixed
 
-        $timestamp = (int) $timestamp;
+        $timestamp = (int)$timestamp;
 
         $timestamp += ElasticManager::ELASTIC_TIME_OFFSET;
 
         $now = new \DateTime();
         $later = \DateTime::createFromFormat('U', $timestamp);
 
-        if($later < $now) {
+        if ($later < $now) {
 
             return 'now';
 
@@ -163,7 +162,7 @@ class ElasticExtension extends \Twig_Extension
     public function translateIpAddressToCountryName($ip)
     {
 
-        if(!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
+        if (!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
 
             return 'N/A';
 
@@ -173,7 +172,7 @@ class ElasticExtension extends \Twig_Extension
 
         $countryName = $geoIpRepo->findCountryNameByIpAddress($ip);
 
-        if($countryName) {
+        if ($countryName) {
 
             return $countryName;
 
@@ -187,7 +186,7 @@ class ElasticExtension extends \Twig_Extension
     public function translateIpAddressToCountryCode($ip)
     {
 
-        if(!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
+        if (!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
 
             return 'N/A';
 
@@ -197,7 +196,7 @@ class ElasticExtension extends \Twig_Extension
 
         $countryCode = $geoIpRepo->findCountryCodeByIpAddress($ip);
 
-        if($countryCode) {
+        if ($countryCode) {
 
             return $countryCode;
 
@@ -210,7 +209,7 @@ class ElasticExtension extends \Twig_Extension
     public function getCountryCodeCount($peers)
     {
 
-        if(!$peers) {
+        if (!$peers) {
 
             return false;
 
@@ -218,13 +217,13 @@ class ElasticExtension extends \Twig_Extension
 
         $readyArr = [];
 
-        foreach($peers as $peer) {
+        foreach ($peers as $peer) {
 
             $peerCountryCode = $this->translateIpAddressToCountryCode($peer['address']);
 
-            if($peerCountryCode && $peerCountryCode !== 'N/A') {
+            if ($peerCountryCode && $peerCountryCode !== 'N/A') {
 
-                if(isset($readyArr[$peerCountryCode['countryCode']])) {
+                if (isset($readyArr[$peerCountryCode['countryCode']])) {
 
                     ++$readyArr[$peerCountryCode['countryCode']];
 
@@ -241,6 +240,13 @@ class ElasticExtension extends \Twig_Extension
         unset($readyArr['N/A']);
 
         return $readyArr;
+
+    }
+
+    public function getMyInfo()
+    {
+
+        return $this->elasticManager->getMyInfo(60);
 
     }
 
