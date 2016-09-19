@@ -40,7 +40,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
         if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][0]['generatorRS'])) {
 
-            $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], (new \DateTime)->getTimestamp() % 2 === 0 ? 1 : 2);
+            $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], (new \DateTime)->getTimestamp() % 2 !== 0 ? 1 : 2);
 
             if(!$result) {
 
@@ -59,7 +59,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
             if($blocks['blocks'][1]['height'] % 2 === 0) {
 
-                $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], (new \DateTime)->getTimestamp() % 2 === 0 ? 1 : 2);
+                $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], (new \DateTime)->getTimestamp() % 2 !== 0 ? 1 : 2);
 
                 if(!$result) {
 
