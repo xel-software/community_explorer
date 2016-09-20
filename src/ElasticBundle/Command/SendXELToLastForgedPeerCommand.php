@@ -57,7 +57,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
         if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][1]['generatorRS'])) {
 
-            if($blocks['blocks'][1]['height'] % 2 === 0) {
+            if($blocks['blocks'][1]['height'] % 5 === 0) {
 
                 $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], mt_rand(1,5));
 
