@@ -14,7 +14,7 @@ class OverviewController extends ExtendController
     {
 
         $elasticManager = $this->get('elastic.manager.elastic');
-        $blocks = $elasticManager->getBlocks(0, 199, true);
+        $blocks = $elasticManager->getBlocks(0, 99, true);
 
         $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
 
