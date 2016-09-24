@@ -6,7 +6,7 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
-        <div class="col-xs-12 col-lg-8">
+        <div class="col-xs-12 col-lg-12">
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Latest blocks</h3>
@@ -66,51 +66,7 @@
             </div>
             <!-- /.box -->
         </div>
-        <div class="col-xs-12 col-lg-4">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Next block generators ( {% if nextBlockGenerators %}{{ nextBlockGenerators.activeCount }}{% else %}0{% endif %} accounts forging )</h3>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    {% if nextBlockGenerators and nextBlockGenerators.generators|length %}
-                        <table id="elastic-blocks" class="table table-bordered table-striped">
-                            <thead>
-                            <tr>
-                                <th>Effective Balance</th>
-                                <th>Account</th>
-                                <th>Hit</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {% for generator in nextBlockGenerators.generators %}
-                                <tr>
-                                    <td>
-                                        {{ generator.effectiveBalanceNXT|number_format(2, '.', ',') }}
-                                    </td>
-                                    <td>
-                                        <a href="{{ path('elastic_address',{'address':generator.accountRS}) }}">{{ generator.accountRS }}</a>
-                                    </td>
-                                    <td>
-                                        {{ translateHitTimeToHumanReadable(generator.hitTime, true) }}
-                                    </td>
-                                </tr>
-                            {% endfor %}
-                            </tbody>
-                            <tfoot>
-                            <tr>
-                                <th>Efective Balance</th>
-                                <th>Account</th>
-                                <th>Hit</th>
-                            </tr>
-                            </tfoot>
-                        </table>
-                    {% endif %}
-                </div>
-                <!-- /.box-body -->
-            </div>
-            <!-- /.box -->
-        </div>
+
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
@@ -175,6 +131,91 @@
             </div>
             <!-- /.box -->
         </div>
+        <div class="col-xs-12 col-lg-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Next block generators ( {% if nextBlockGenerators %}{{ nextBlockGenerators.activeCount }}{% else %}0{% endif %} accounts forging )</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if nextBlockGenerators and nextBlockGenerators.generators|length %}
+                        <table id="elastic-next-block-generators" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Effective Balance</th>
+                                <th>Account</th>
+                                <th>Hit</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for generator in nextBlockGenerators.generators %}
+                                <tr>
+                                    <td>
+                                        {{ generator.effectiveBalanceNXT|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':generator.accountRS}) }}">{{ generator.accountRS }}</a>
+                                    </td>
+                                    <td>
+                                        {{ translateHitTimeToHumanReadable(generator.hitTime, true) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Efective Balance</th>
+                                <th>Account</th>
+                                <th>Hit</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Top XEL accounts</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if topAccounts and topAccounts|length %}
+                        <table id="elastic-top-accounts" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Balance</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for accountRS,accountBalance  in topAccounts %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':accountRS}) }}">{{ accountRS }}</a>
+                                    </td>
+                                    <td>
+                                        {{ accountBalance|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Address</th>
+                                <th>Balance</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
     </div>
 </section>
 
@@ -184,6 +225,13 @@
         $('#elastic-blocks').DataTable({
             "searching": false,
             "order": [[ 0, "desc" ]]
+        });
+        $('#elastic-top-accounts').DataTable({
+            "searching": false,
+            "order": [[ 1, "desc" ]]
+        });
+        $('#elastic-next-block-generators').DataTable({
+            "searching": false
         });
         $('#elastic-transactions').DataTable({
             "searching": false,

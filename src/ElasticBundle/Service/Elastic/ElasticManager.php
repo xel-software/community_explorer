@@ -13,6 +13,8 @@ use ElasticBundle\Service\CURLManager;
 class ElasticManager
 {
 
+    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-SG4T-Z44W-5JMC-657W7';
+
     const ELASTIC_NQT_DIVIDER = 100000000;
 
     const TRANSACTION_TYPE_PAYMENT = 0;

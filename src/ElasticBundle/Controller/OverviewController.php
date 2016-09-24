@@ -13,10 +13,20 @@ class OverviewController extends ExtendController
     public function indexAction(Request $request)
     {
 
+        $topAccountsFilePath = $this->get('kernel')->getRootDir() . '/../web/share/topXelAccounts.ser';
+
         $elasticManager = $this->get('elastic.manager.elastic');
         $blocks = $elasticManager->getBlocks(0, 99, true);
 
         $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
+        $topAccounts = [];
+
+        if(file_exists($topAccountsFilePath) && realpath($topAccountsFilePath)) {
+
+            $topAccounts = unserialize(file_get_contents($topAccountsFilePath));
+
+        }
+
         //$accountWorkEfficiencyPlot = $elasticManager->getAccountWorkEfficiencyPlot('10013814791103627446');
         $searchAccounts = $elasticManager->searchAccounts();
 
@@ -25,7 +35,8 @@ class OverviewController extends ExtendController
 
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
-            'nextBlockGenerators' => $nextBlockGenerators
+            'nextBlockGenerators' => $nextBlockGenerators,
+            'topAccounts' => $topAccounts,
         ]);
     }
 
