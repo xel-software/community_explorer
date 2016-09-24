@@ -237,6 +237,7 @@
         });
         $('#elastic-next-block-generators').DataTable({
             "searching": false,
+            "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
             "order": [[ 0, "asc" ]]
         });
         $('#elastic-transactions').DataTable({
