@@ -10,6 +10,11 @@
             <div class="box">
                 <div class="box-header">
                     <h3 class="box-title">Account info</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -66,9 +71,14 @@
             </div>
             <!-- /.box -->
 
-            <div class="box">
+            <div class="box collapsed-box">
                 <div class="box-header">
                     <h3 class="box-title">Latest transactions</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -129,9 +139,14 @@
             </div>
             <!-- /.box -->
 
-            <div class="box">
+            <div class="box collapsed-box">
                 <div class="box-header">
                     <h3 class="box-title">Latest ledger entries</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -195,9 +210,14 @@
             <!-- /.box -->
 
 
-            <div class="box">
+            <div class="box collapsed-box">
                 <div class="box-header">
                     <h3 class="box-title">Lastest forged blocks</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -249,6 +269,113 @@
             </div>
             <!-- /.box -->
 
+            <div class="box collapsed-box">
+                <div class="box-header">
+                    <h3 class="box-title">Lastest work submitted</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-plus"></i>
+                        </button>
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if accountWork.work_packages is defined and accountWork.work_packages|length %}
+                        <table id="elastic-account-work" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Work ID</th>
+                                <th>Title</th>
+                                <th>Height</th>
+                                <th>Received PoW</th>
+                                <th>PoW Fund</th>
+                                <th>PoW Fund Orig</th>
+                                <th>% PoW Fund</th>
+                                <th>XEL per PoW</th>
+                                <th>Bounty Fund</th>
+                                <th>Bounty Fund Orig</th>
+                                <th>Received Bounties</th>
+                                <th>Bounty Limit</th>
+                                <th>Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for workPackage in accountWork.work_packages %}
+                                <tr>
+                                    <td>
+                                        {{ workPackage.work_id }}
+                                    </td>
+                                    <td>
+                                        {{ workPackage.title|slice(0,9) }}{% if workPackage.title|length > 10 %}...{% endif %}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_block',{'block': workPackage.originating_height}) }}">{{ workPackage.originating_height }}</a>
+                                    </td>
+                                    <td>
+                                        {{ workPackage.received_pows }}
+                                    </td>
+                                    <td>
+                                        {{ (workPackage.balance_pow_fund/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (workPackage.balance_pow_fund_orig/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ workPackage.percentage_powfund }}
+                                    </td>
+                                    <td>
+                                        {{ (workPackage.xel_per_pow/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (workPackage.balance_bounty_fund/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ (workPackage.balance_bounty_fund_orig/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        {{ workPackage.received_bounties }}
+                                    </td>
+                                    <td>
+                                        {{ workPackage.bounty_limit }}
+                                    </td>
+                                    <td>
+                                        {% if not workPackage.closed and not workPackage.cancelled %}
+                                            <span class="label label-success">Running</span>
+                                        {% elseif workPackage.closed %}
+                                            <span class="label label-default">Ended</span>
+                                        {% elseif workPackage.cancelled %}
+                                            <span class="label label-warning">Cancelled</span>
+                                        {% else %}
+                                            <span class="label label-info">Unknown</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Work ID</th>
+                                <th>Title</th>
+                                <th>Height</th>
+                                <th>Received PoW</th>
+                                <th>PoW Fund</th>
+                                <th>PoW Fund Orig</th>
+                                <th>% PoW Fund</th>
+                                <th>XEL per PoW</th>
+                                <th>Bounty Fund</th>
+                                <th>Bounty Fund Orig</th>
+                                <th>Received Bounties</th>
+                                <th>Bounty Limit</th>
+                                <th>Status</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
         </div>
     </div>
 </section>
@@ -272,6 +399,11 @@
         "searching": false,
         "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
         "order": [[ 0, "desc" ]]
+    });
+
+    $('#elastic-account-work').DataTable({
+        "searching": false,
+        "order": [[ 2, "desc" ]]
     });
 </script>
 

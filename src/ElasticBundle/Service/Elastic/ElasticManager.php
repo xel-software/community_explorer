@@ -474,6 +474,66 @@ class ElasticManager
 
     }
 
+    /**
+     * @param $address
+     * @param bool $includeTransactions
+     * @param int $firstIndex
+     * @param int $lastIndex
+     * @return bool|mixed
+     * @throws \Exception
+     */
+    public function getAccountWork($address, $firstIndex = 0, $lastIndex = 199)
+    {
+
+        if(!$this->elasticValidator->validateAddress($address)) {
+
+            return false;
+
+        }
+
+        $query = 'getAccountWork&account=' . $address;
+
+        $firstIndex = (int) $firstIndex;
+        $lastIndex = (int) $lastIndex;
+
+        if($firstIndex === 0 || $firstIndex > 0) {
+
+            $query .= '&firstIndex=' . $firstIndex;
+
+        }
+
+        if($lastIndex > 0) {
+
+            $query .= '&lastIndex=' . $lastIndex;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $accountWork = json_decode($result, true);
+
+        if(!$accountWork) {
+
+            return false;
+
+        }
+
+        if(isset($accountWork['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $accountWork;
+
+    }
+
     public function getNextBlockGenerators($limit = 10)
     {
 

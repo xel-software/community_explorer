@@ -19,6 +19,7 @@ class AddressController extends ExtendController
         $accountTransactions = $elasticManager->getBlockchainTransactions($address, 0, 99);
         $accountBlocks = $elasticManager->getAccountBlocks($address, false, 0, 99);
         $accountLedger = $elasticManager->getAccountLedger($address, 0, 99);
+        $accountWork = $elasticManager->getAccountWork($address, 0, 99);
 
         if(!$accountInfo) {
 
@@ -30,7 +31,8 @@ class AddressController extends ExtendController
             'accountInfo' => $accountInfo,
             'accountBlocks' => $accountBlocks,
             'accountTransactions' => $accountTransactions,
-            'accountLedger' => $accountLedger
+            'accountLedger' => $accountLedger,
+            'accountWork' => $accountWork
         ]);
     }
 }
