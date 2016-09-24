@@ -290,7 +290,7 @@
                                 <th>Received PoW</th>
                                 <th>PoW Fund</th>
                                 <th>PoW Fund Orig</th>
-                                <th>% PoW Fund</th>
+                                <th>%</th>
                                 <th>XEL per PoW</th>
                                 <th>Bounty Fund</th>
                                 <th>Bounty Fund Orig</th>
@@ -306,7 +306,7 @@
                                         {{ workPackage.work_id }}
                                     </td>
                                     <td>
-                                        {{ workPackage.title|slice(0,9) }}{% if workPackage.title|length > 10 %}...{% endif %}
+                                        <span title="{{ workPackage.title }}">{{ workPackage.title|slice(0,9) }}{% if workPackage.title|length > 10 %}...{% endif %}</span>
                                     </td>
                                     <td>
                                         <a href="{{ path('elastic_block',{'block': workPackage.originating_height}) }}">{{ workPackage.originating_height }}</a>
@@ -360,7 +360,7 @@
                                 <th>Received PoW</th>
                                 <th>PoW Fund</th>
                                 <th>PoW Fund Orig</th>
-                                <th>% PoW Fund</th>
+                                <th>%</th>
                                 <th>XEL per PoW</th>
                                 <th>Bounty Fund</th>
                                 <th>Bounty Fund Orig</th>
