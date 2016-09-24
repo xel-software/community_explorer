@@ -35,6 +35,7 @@ class ElasticExtension extends \Twig_Extension
             new \Twig_SimpleFunction('translateHitTimeToHumanReadable', [$this, 'translateHitTimeToHumanReadable']),
             new \Twig_SimpleFunction('getCountryCodeCount', [$this, 'getCountryCodeCount']),
             new \Twig_SimpleFunction('getMyInfo', [$this, 'getMyInfo']),
+            new \Twig_SimpleFunction('translateLedgerEntryType', [$this, 'translateLedgerEntryType']),
         ];
     }
 
@@ -56,6 +57,13 @@ class ElasticExtension extends \Twig_Extension
     {
 
         return $this->elasticManager->translateTransactionNumericType($type);
+
+    }
+
+    public function translateLedgerEntryType($type)
+    {
+
+        return $this->elasticManager->translateLedgerEntryType($type);
 
     }
 

@@ -86,7 +86,7 @@ class ElasticManager
      * @param int $firstIndex
      * @param null $lastIndex
      * @param bool|false $includeTransactions
-     * @param int|null $cache
+     * @param int|null $cacheTTL
      * @return bool|mixed
      * @throws \Exception
      */
@@ -116,7 +116,13 @@ class ElasticManager
 
         }
 
-        $result = $this->curlManager->getURL($this->daemonAddress . $query, $cacheTTL ? $cacheTTL : null);
+        if($cacheTTL !== null) {
+
+            $cacheTTL = (int) $cacheTTL;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query, $cacheTTL !== null ? $cacheTTL : null);
 
         if(!$result) {
 
@@ -140,6 +146,82 @@ class ElasticManager
         }
 
         return $blocks;
+
+    }
+
+    /**
+     * @param string $address
+     * @param int $firstIndex
+     * @param int $lastIndex
+     * @param bool|false $includeTransactions
+     * @param null $cacheTTL
+     * @return bool|mixed
+     * @throws \Exception
+     */
+    public function getAccountLedger($address, $firstIndex = 0, $lastIndex = 100, $includeTransactions = false, $cacheTTL = null)
+    {
+
+        if(!$this->elasticValidator->validateAddress($address)) {
+
+            return false;
+
+        }
+
+        $query = 'getAccountLedger';
+
+        $query .= '&account=' . $address;
+
+        $firstIndex = (int) $firstIndex;
+        $lastIndex = (int) $lastIndex;
+
+        if($firstIndex === 0 || $firstIndex > 0) {
+
+            $query .= '&firstIndex=' . $firstIndex;
+
+        }
+
+        if($lastIndex && $lastIndex > 0) {
+
+            $query .= '&lastIndex=' . $lastIndex;
+
+        }
+
+        if($includeTransactions) {
+
+            $query .= '&includeTransactions=true';
+
+        }
+
+        if($cacheTTL !== null) {
+
+            $cacheTTL = (int) $cacheTTL;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query, $cacheTTL !== null ? $cacheTTL : null);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $accountLedger = json_decode($result, true);
+
+
+        if(isset($accountLedger['errorCode'])) {
+
+            return false;
+
+        }
+
+        if(!$accountLedger) {
+
+            return false;
+
+        }
+
+        return $accountLedger;
 
     }
 
@@ -168,6 +250,50 @@ class ElasticManager
             case self::TRANSACTION_TYPE_MESSAGING: return 'Message'; break;
             case self::TRANSACTION_TYPE_ACCOUNT_CONTROL: return 'Account'; break;
             case self::TRANSACTION_TYPE_WORK_CONTROL: return 'PoW'; break;
+            default: return 'Unknown'; break;
+
+        }
+
+    }
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public function translateLedgerEntryType($type)
+    {
+
+        if(!is_string($type)) {
+
+            return false;
+
+        }
+
+        switch($type) {
+
+            case 'BLOCK_GENERATED': return 'Block Creation'; break;
+            case 'REJECT_PHASED_TRANSACTION': return 'Reject Phased Transaction'; break;
+            case 'TRANSACTION_FEE': return 'Fee'; break;
+            case 'ORDINARY_PAYMENT': return 'Payment'; break;
+            case 'ACCOUNT_INFO': return 'Account Info'; break;
+            case 'ALIAS_ASSIGNMENT': return 'Alias Assignment'; break;
+            case 'ALIAS_BUY': return 'Alias Buy'; break;
+            case 'ALIAS_DELETE': return 'Alias Delete'; break;
+            case 'ALIAS_SELL': return 'Alias Sell'; break;
+            case 'ARBITRARY_MESSAGE': return 'Message'; break;
+            case 'HUB_ANNOUNCEMENT': return 'Hub Announcement'; break;
+            case 'PHASING_VOTE_CASTING': return 'Phasing Vote Casting'; break;
+            case 'POLL_CREATION': return 'Poll Creation'; break;
+            case 'VOTE_CASTING': return 'Vote Casting'; break;
+            case 'ACCOUNT_PROPERTY': return 'Account Property'; break;
+            case 'ACCOUNT_PROPERTY_DELETE': return 'Account Property Delete'; break;
+            case 'WORK_CREATION': return 'Work Creation'; break;
+            case 'WORK_CANCELLATION_REQUEST': return 'Work Cancellation Request'; break;
+            case 'WORK_CANCELLATION': return 'Work Cancellation'; break;
+            case 'WORK_BOUNTY': return 'Work Bounty'; break;
+            case 'WORK_BOUNTY_PAYOUT': return 'Work Bounty Payout'; break;
+            case 'WORK_POW': return 'Work PoW'; break;
+
             default: return 'Unknown'; break;
 
         }

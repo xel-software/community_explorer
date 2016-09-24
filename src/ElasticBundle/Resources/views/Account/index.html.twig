@@ -68,7 +68,7 @@
 
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Latest 200 transactions</h3>
+                    <h3 class="box-title">Latest 100 transactions</h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -78,9 +78,9 @@
                             <tr>
                                 <th>Timestamp</th>
                                 <th>ID</th>
+                                <th>Age</th>
                                 <th>Sender</th>
                                 <th>Recipient</th>
-                                <th>Age</th>
                                 <th>Amt + Fee</th>
                             </tr>
                             </thead>
@@ -94,6 +94,9 @@
                                         <a href="{{ path('elastic_transaction',{'transaction': accountTransaction.transaction}) }}">{{ accountTransaction.transaction }}</a>
                                     </td>
                                     <td>
+                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp, true) }}
+                                    </td>
+                                    <td>
                                         <a href="{{ path('elastic_address',{'address':accountTransaction.senderRS}) }}">{{ accountTransaction.senderRS }}</a>
                                     </td>
                                     <td>
@@ -102,9 +105,6 @@
                                         {% else %}
                                             {{ 'Genesis' }}
                                         {% endif %}
-                                    </td>
-                                    <td>
-                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp, true) }}
                                     </td>
                                     <td>
                                         {{ (accountTransaction.amountNQT/amountDivider)|number_format(2, '.', ',') }} + {{ (accountTransaction.feeNQT/amountDivider)|number_format(2, '.', ',') }}
@@ -116,10 +116,75 @@
                             <tr>
                                 <th>Timestamp</th>
                                 <th>ID</th>
+                                <th>Age</th>
                                 <th>Sender</th>
                                 <th>Recipient</th>
-                                <th>Age</th>
                                 <th>Amt + Fee</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Latest ledger entries</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if accountLedger.entries is defined and accountLedger.entries and accountLedger.entries|length %}
+                        <table id="elastic-account-ledger" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Height</th>
+                                <th>Age</th>
+                                <th>Type</th>
+                                <th>Change</th>
+                                <th>Balance</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for ledgerEntry in accountLedger.entries %}
+                                <tr>
+                                    <td>
+                                        {{ ledgerEntry.timestamp }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_block',{'block': ledgerEntry.height}) }}">{{ ledgerEntry.height }}</a>
+                                    </td>
+                                    <td>
+                                        {{ translateTimestampToHumanReadable(ledgerEntry.timestamp, true) }}
+                                    </td>
+                                    <td>
+                                        {{ translateLedgerEntryType(ledgerEntry.eventType) }}
+                                    </td>
+                                    <td>
+                                        {% if ledgerEntry.change > 0 %}
+                                            <span class="text-green">{{ (ledgerEntry.change/amountDivider)|number_format(2, '.', ',') }}</span>
+                                        {% elseif ledgerEntry.change < 0 %}
+                                            <span class="text-red">{{ (ledgerEntry.change/amountDivider)|number_format(2, '.', ',') }}</span>
+                                        {% else %}
+                                            <span class="text-muted">0</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {{ (ledgerEntry.balance/amountDivider)|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>Height</th>
+                                <th>Age</th>
+                                <th>Type</th>
+                                <th>Change</th>
+                                <th>Balance</th>
                             </tr>
                             </tfoot>
                         </table>
@@ -200,6 +265,12 @@
 
     $('#elastic-account-blocks').DataTable({
         "searching": false,
+        "order": [[ 0, "desc" ]]
+    });
+
+    $('#elastic-account-ledger').DataTable({
+        "searching": false,
+        "aoColumnDefs": [{ "bVisible": false, "aTargets": [0] }],
         "order": [[ 0, "desc" ]]
     });
 </script>

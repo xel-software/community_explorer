@@ -16,8 +16,9 @@ class AddressController extends ExtendController
 
         $elasticManager = $this->get('elastic.manager.elastic');
         $accountInfo = $elasticManager->getAccount($address, true);
-        $accountTransactions = $elasticManager->getBlockchainTransactions($address);
-        $accountBlocks = $elasticManager->getAccountBlocks($address);
+        $accountTransactions = $elasticManager->getBlockchainTransactions($address, 0, 99);
+        $accountBlocks = $elasticManager->getAccountBlocks($address, 0, 99);
+        $accountLedger = $elasticManager->getAccountLedger($address, 0, 99);
 
         if(!$accountInfo) {
 
@@ -28,7 +29,8 @@ class AddressController extends ExtendController
         return $this->render('ElasticBundle:Account:index.html.twig',[
             'accountInfo' => $accountInfo,
             'accountBlocks' => $accountBlocks,
-            'accountTransactions' => $accountTransactions
+            'accountTransactions' => $accountTransactions,
+            'accountLedger' => $accountLedger
         ]);
     }
 }
