@@ -534,6 +534,68 @@ class ElasticManager
 
     }
 
+    public function searchAccounts($xelQuery = null, $firstIndex = 0, $lastIndex = 199)
+    {
+
+        if(!is_string($xelQuery) && !is_null($xelQuery)) {
+
+            return false;
+
+        }
+
+        $query = 'searchAccounts';
+
+        if($xelQuery) {
+
+            $query .= '&query=' . $xelQuery;
+
+        } else {
+
+            $query .= '&query=X';
+
+        }
+
+        $firstIndex = (int) $firstIndex;
+        $lastIndex = (int) $lastIndex;
+
+        if($firstIndex === 0 || $firstIndex > 0) {
+
+            $query .= '&firstIndex=' . $firstIndex;
+
+        }
+
+        if($lastIndex > 0) {
+
+            $query .= '&lastIndex=' . $lastIndex;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $searchAccounts = json_decode($result, true);
+
+        if(!$searchAccounts) {
+
+            return false;
+
+        }
+
+        if(isset($searchAccounts['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $searchAccounts;
+
+    }
+
     public function getAccountWorkEfficiencyPlot($workId, $lastNum = 100000000)
     {
 

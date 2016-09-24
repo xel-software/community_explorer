@@ -18,6 +18,7 @@ class OverviewController extends ExtendController
 
         $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
         //$accountWorkEfficiencyPlot = $elasticManager->getAccountWorkEfficiencyPlot('10013814791103627446');
+        $searchAccounts = $elasticManager->searchAccounts();
 
 //        $time = $elasticManager->getTime();
 //        $diff = (new \DateTime())->getTimestamp() - $time['time'];
