@@ -17,7 +17,7 @@ class AddressController extends ExtendController
         $elasticManager = $this->get('elastic.manager.elastic');
         $accountInfo = $elasticManager->getAccount($address, true);
         $accountTransactions = $elasticManager->getBlockchainTransactions($address, 0, 99);
-        $accountBlocks = $elasticManager->getAccountBlocks($address, 0, 99);
+        $accountBlocks = $elasticManager->getAccountBlocks($address, false, 0, 99);
         $accountLedger = $elasticManager->getAccountLedger($address, 0, 99);
 
         if(!$accountInfo) {
