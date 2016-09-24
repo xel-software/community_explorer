@@ -72,6 +72,27 @@ class ElasticValidator
 
     }
 
+    public function validateWorkId($workId)
+    {
+
+        if(!is_numeric($workId)) {
+
+            return false;
+
+        }
+
+        $transactionId = (int) $workId;
+
+        if(!preg_match("/^[0-9]{13,23}$/", $workId)) {
+
+            return false;
+
+        }
+
+        return true;
+
+    }
+
     public function validateTransactionFullHash($transactionFullHash)
     {
 

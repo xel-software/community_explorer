@@ -534,6 +534,50 @@ class ElasticManager
 
     }
 
+    public function getAccountWorkEfficiencyPlot($workId, $lastNum = 100000000)
+    {
+
+        if(!$this->elasticValidator->validateWorkId($workId)) {
+
+            return false;
+
+        }
+
+        $query = 'getAccountWorkEfficiencyPlot&workId=' . $workId;
+
+        if($lastNum) {
+
+            $lastNum = (int) $lastNum;
+            $query .= '&last_num=' . $lastNum;
+
+        }
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $accountWorkEfficiencyPlot = json_decode($result, true);
+
+        if(!$accountWorkEfficiencyPlot) {
+
+            return false;
+
+        }
+
+        if(isset($accountWorkEfficiencyPlot['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $accountWorkEfficiencyPlot;
+
+    }
+
     public function getNextBlockGenerators($limit = 10)
     {
 
