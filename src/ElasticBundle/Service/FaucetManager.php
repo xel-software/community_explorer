@@ -133,7 +133,7 @@ class FaucetManager
         }
 
         $paidXELAddresses = $this->getPaidXELAddresses();
-        $paidXELAddresses[(new \DateTime)->format('Y-m-d H:i:s')] = $address;
+        $paidXELAddresses[(new \DateTime)->format('Y-m-d H:i:s') . '|' . md5($address)] = $address;
 
         file_put_contents($this->filepathPaidXELAddresses, serialize($paidXELAddresses));
 
