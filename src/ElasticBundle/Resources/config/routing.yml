@@ -25,4 +25,7 @@ elastic_about:
 elastic_peers:
     path:     /peers/
     defaults: { _controller: ElasticBundle:Peer:index }
+elastic_faucet:
+    path:     /faucet/
+    defaults: { _controller: ElasticBundle:Faucet:index }
 

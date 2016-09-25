@@ -8,7 +8,9 @@ services:
     elastic.manager.elastic:
         class: ElasticBundle\Service\Elastic\ElasticManager
         arguments: ['@elastic.manager.curl', '%elastic_daemon_address%', '%elastic_daemon_port%', '%elastic_main_account_passphrase%']
-
+    elastic.manager.faucet:
+            class: ElasticBundle\Service\FaucetManager
+            arguments: ['@service_container']
 #TWIG EXTENSIONS
     twig.extension.elastic.elastic:
         class: ElasticBundle\Twig\Extension\ElasticExtension
