@@ -200,7 +200,7 @@
                             {% for accountRS,accountBalance  in topAccounts %}
                                 <tr>
                                     <td>
-                                        <a href="{{ path('elastic_address',{'address':accountRS}) }}">{{ accountRS }}</a>
+                                        <a href="{{ path('elastic_address', {'address':accountRS}) }}">{{ accountRS }}</a>
                                     </td>
                                     <td>
                                         {{ accountBalance|number_format(2, '.', ',') }}
