@@ -81,12 +81,13 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 
                 if($accountTransactions && isset($accountTransactions['transactions']) && is_array($accountTransactions['transactions']) && count($accountTransactions['transactions'])) {
 
-                    foreach($accountTransactions['transactions'] as $transaction) {
+                    foreach($accountTransactions['transactions'] as $key => $transaction) {
 
                         if(isset($transaction['recipientRS'])) {
 
                             if(isset($accounts[$transaction['recipientRS']]) || isset($accountsToCheck[$transaction['recipientRS']])) {
 
+                                unset($accountTransactions['transactions'][$key]);
                                 continue;
 
                             } else {
@@ -98,6 +99,8 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
                             $memoryUsage = round(memory_get_usage(false)/1024/1024,2,PHP_ROUND_HALF_UP);
 
                             $output->writeln("<info><comment>{$memoryUsage}</comment>MiB</info>");
+
+                            unset($accountTransactions['transactions'][$key]);
 
                         }
 
