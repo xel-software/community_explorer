@@ -74,7 +74,7 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 
                 $output->writeln('Trying to get account transactions');
 
-                $accountTransactions = $elasticManager->getBlockchainTransactions($account, 0, 1000000);
+                $accountTransactions = $elasticManager->getBlockchainTransactions($account, 0, 1000000, ElasticManager::TRANSACTION_TYPE_PAYMENT);
 
                 $output->writeln('Got account transactions');
                 $output->writeln('Processing');

@@ -358,7 +358,7 @@ class ElasticManager
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getBlockchainTransactions($address = null, $firstIndex = 0, $lastIndex = 199)
+    public function getBlockchainTransactions($address = null, $firstIndex = 0, $lastIndex = 199, $type = null)
     {
 
         $query = 'getBlockchainTransactions';
@@ -381,6 +381,13 @@ class ElasticManager
         if($lastIndex > 0) {
 
             $query .= '&lastIndex=' . $lastIndex;
+
+        }
+
+        if(!is_null($type)) {
+
+            $type = (int) $type;
+            $query .= '&type=' . $type;
 
         }
 
