@@ -16,3 +16,4 @@
 /web/bundles/
 .idea/
 /src/ElasticBundle/Resources/faucet/*
+/web/share/topXelAccounts.ser
