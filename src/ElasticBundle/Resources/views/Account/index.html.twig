@@ -401,10 +401,35 @@
         "order": [[ 0, "desc" ]]
     });
 
-    $('#elastic-account-work').DataTable({
+//    $('#elastic-account-work').DataTable({
+//        "searching": false,
+//        "order": [[ 2, "desc" ]],
+//        "scrollX": true,
+//        "scrollCollapse": true,
+//        "fixedColumns":   {
+//            "leftColumns": 3
+//        }
+//    });
+
+    var tableElasticAccountWork = $('#elastic-account-work').DataTable( {
+
         "searching": false,
-        "order": [[ 2, "desc" ]]
-    });
+        "order": [[ 2, "desc" ]],
+        "scrollX": true,
+        "scrollCollapse": true,
+        "colReorder": {
+            "fixedColumnsLeft": 3,
+            "fixedColumnsRight": 1
+        }
+
+    } );
+
+    new $.fn.dataTable.FixedColumns( tableElasticAccountWork, {
+        "leftColumns": 3,
+        "rightColumns": 1
+    } );
+
+
 </script>
 
 {% endblock %}
