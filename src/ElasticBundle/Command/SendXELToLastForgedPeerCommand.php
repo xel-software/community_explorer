@@ -14,6 +14,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 {
 
+    const SEND_NORMAL_TRANSATCIONS = 30;
+    const SEND_EXTRA_TRANSACTIONS = 30;
+
     protected function configure()
     {
         $this
@@ -38,28 +41,14 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
         }
 
-        if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][0]['generatorRS'])) {
+        $firstSendRandom = mt_rand(1, self::SEND_NORMAL_TRANSATCIONS);
+        $secondSendRandom = mt_rand(1, self::SEND_EXTRA_TRANSACTIONS);
 
-            $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], mt_rand(1,15));
+        for($i = 0; $i < $firstSendRandom; $i++) {
 
-            if(!$result) {
+            if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][0]['generatorRS'])) {
 
-                $output->writeln("Could not send transaction to this account, exiting.");
-
-            }
-
-        } else {
-
-            $output->writeln("Can't validate last block forged, exiting.");
-            exit;
-
-        }
-
-        if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][1]['generatorRS'])) {
-
-            if($blocks['blocks'][1]['height'] % 5 === 0) {
-
-                $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], mt_rand(1,15));
+                $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], 1);
 
                 if(!$result) {
 
@@ -67,12 +56,37 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
                 }
 
+            } else {
+
+                $output->writeln("Can't validate last block forged, exiting.");
+                exit;
+
             }
 
-        } else {
+        }
 
-            $output->writeln("Can't validate last block forged, exiting.");
-            exit;
+        for($i = 0; $i < $secondSendRandom; $i++) {
+
+            if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][1]['generatorRS'])) {
+
+                if($blocks['blocks'][1]['height'] % 5 === 0) {
+
+                    $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], 1);
+
+                    if(!$result) {
+
+                        $output->writeln("Could not send transaction to this account, exiting.");
+
+                    }
+
+                }
+
+            } else {
+
+                $output->writeln("Can't validate last block forged, exiting.");
+                exit;
+
+            }
 
         }
 
