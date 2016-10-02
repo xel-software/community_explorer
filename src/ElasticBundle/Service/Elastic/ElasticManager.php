@@ -1167,7 +1167,7 @@ class ElasticManager
 
         }
 
-        $result = $this->curlManager->getURLByPostMethod($this->daemonAddress . $request, $query);
+        $result = $this->curlManager->getURLByPostMethod($this->daemonAddress . $request, $query, -1);
 
         if(!$result) {
 
