@@ -52,6 +52,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
                 usleep(1000000);
 
                 $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], 1);
+                $output->writeln("XEL sent.");
 
                 if(!$result) {
 
@@ -77,6 +78,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
                     usleep(1000000);
 
                     $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], 1);
+                    $output->writeln("XEL sent.");
 
                     if(!$result) {
 
