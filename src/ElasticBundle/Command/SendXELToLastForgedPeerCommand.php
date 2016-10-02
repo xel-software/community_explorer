@@ -14,8 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 {
 
-    const SEND_NORMAL_TRANSACTIONS = 30;
-    const SEND_EXTRA_TRANSACTIONS = 30;
+    const SEND_NORMAL_TRANSACTIONS = 120;
+    const SEND_EXTRA_TRANSACTIONS = 120;
     const SEND_SLEEP_TIME = 0.2;
 
     protected function configure()
