@@ -14,8 +14,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 {
 
-    const SEND_NORMAL_TRANSACTIONS = 29;
-    const SEND_EXTRA_TRANSACTIONS = 29;
+    const SEND_NORMAL_TRANSACTIONS = 30;
+    const SEND_EXTRA_TRANSACTIONS = 30;
     const SEND_SLEEP_TIME = 1;
 
     protected function configure()
@@ -51,7 +51,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
                 usleep(1000000);
 
-                $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], 1);
+                $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], mt_rand(1,2));
                 $output->writeln("XEL sent.");
 
                 if(!$result) {
@@ -77,7 +77,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
                     usleep(1000000);
 
-                    $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], 1);
+                    $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], mt_rand(1,2));
                     $output->writeln("XEL sent.");
 
                     if(!$result) {
