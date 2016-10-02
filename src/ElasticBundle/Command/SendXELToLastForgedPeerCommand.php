@@ -16,6 +16,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
     const SEND_NORMAL_TRANSATCIONS = 30;
     const SEND_EXTRA_TRANSACTIONS = 30;
+    const SEND_SLEEP_TIME = 1;
 
     protected function configure()
     {
@@ -48,6 +49,8 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
             if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][0]['generatorRS'])) {
 
+                usleep(500000);
+
                 $result = $elasticManager->sendMoney($blocks['blocks'][0]['generatorRS'], 1);
 
                 if(!$result) {
@@ -70,6 +73,8 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
             if(isset($blocks['blocks']) && is_array($blocks['blocks']) && count($blocks['blocks']) && isset($blocks['blocks'][1]['generatorRS'])) {
 
                 if($blocks['blocks'][1]['height'] % 5 === 0) {
+
+                    usleep(500000);
 
                     $result = $elasticManager->sendMoney($blocks['blocks'][1]['generatorRS'], 1);
 
