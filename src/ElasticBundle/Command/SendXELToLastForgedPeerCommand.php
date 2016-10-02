@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 {
 
-    const SEND_NORMAL_TRANSATCIONS = 30;
+    const SEND_NORMAL_TRANSACTIONS = 30;
     const SEND_EXTRA_TRANSACTIONS = 30;
     const SEND_SLEEP_TIME = 1;
 
@@ -42,7 +42,7 @@ class SendXELToLastForgedPeerCommand extends ContainerAwareCommand
 
         }
 
-        $firstSendRandom = mt_rand(1, self::SEND_NORMAL_TRANSATCIONS);
+        $firstSendRandom = mt_rand(1, self::SEND_NORMAL_TRANSACTIONS);
         $secondSendRandom = mt_rand(1, self::SEND_EXTRA_TRANSACTIONS);
 
         for($i = 0; $i < $firstSendRandom; $i++) {
