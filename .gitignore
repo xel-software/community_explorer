@@ -17,4 +17,3 @@
 .idea/
 /src/ElasticBundle/Resources/faucet/*
 /web/share/topXelAccounts.ser
-/composer.lock
