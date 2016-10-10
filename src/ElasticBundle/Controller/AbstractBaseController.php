@@ -11,10 +11,10 @@ use Symfony\Bridge\Monolog\Logger;
 use Doctrine\Common\Cache\FilesystemCache;
 
 /**
- * Class ExtendController
+ * Class AbstractBaseController
  * @package ElasticBundle\Controller
  */
-abstract class ExtendController extends Controller
+abstract class AbstractBaseController extends Controller
 {
     /**
      * @var EntityManager

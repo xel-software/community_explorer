@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class AddressController
  * @package ElasticBundle\Controller
  */
-class AddressController extends ExtendController
+class AddressController extends AbstractBaseController
 {
     public function showAction(Request $request, $address)
     {

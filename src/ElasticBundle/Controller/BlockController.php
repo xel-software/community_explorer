@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class BlockController
  * @package ElasticBundle\Controller
  */
-class BlockController extends ExtendController
+class BlockController extends AbstractBaseController
 {
     public function showAction(Request $request, $block)
     {

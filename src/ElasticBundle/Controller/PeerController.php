@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class PeerController
  * @package ElasticBundle\Controller
  */
-class PeerController extends ExtendController
+class PeerController extends AbstractBaseController
 {
     public function indexAction(Request $request)
     {

@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class TransactionController
  * @package ElasticBundle\Controller
  */
-class TransactionController extends ExtendController
+class TransactionController extends AbstractBaseController
 {
     public function showAction(Request $request, $transaction)
     {

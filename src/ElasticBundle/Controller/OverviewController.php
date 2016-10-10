@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class OverviewController
  * @package ElasticBundle\Controller
  */
-class OverviewController extends ExtendController
+class OverviewController extends AbstractBaseController
 {
     public function indexAction(Request $request)
     {
@@ -27,8 +27,8 @@ class OverviewController extends ExtendController
 
         }
 
-        //$accountWorkEfficiencyPlot = $elasticManager->getAccountWorkEfficiencyPlot('10013814791103627446');
-        $searchAccounts = $elasticManager->searchAccounts();
+//        $accountWorkEfficiencyPlot = $elasticManager->getAccountWorkEfficiencyPlot('10013814791103627446');
+//        $searchAccounts = $elasticManager->searchAccounts();
 
 //        $time = $elasticManager->getTime();
 //        $diff = (new \DateTime())->getTimestamp() - $time['time'];

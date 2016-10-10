@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
  * Class FaucetController
  * @package ElasticBundle\Controller
  */
-class FaucetController extends ExtendController
+class FaucetController extends AbstractBaseController
 {
     public function indexAction(Request $request)
     {
