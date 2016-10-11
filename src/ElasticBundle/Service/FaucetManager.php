@@ -13,7 +13,7 @@ class FaucetManager
 {
 
 
-    const AMOUNT_TO_PAY = 10000;
+    const AMOUNT_TO_PAY = 100000;
 
     /**
      * @var string
