@@ -61,15 +61,16 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
                     <ul class="nav navbar-nav">
-                        <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Block Explorer <span class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
-                                <li><a href="{{ path('elastic_homepage') }}">Overview</a></li>
-                                {#<li class="divider"></li>#}
-                                {#<li><a href="#">Transactions</a></li>#}
-                                {#<li><a href="#">Blocks</a></li>#}
-                            </ul>
-                        </li>
+                        {#<li class="dropdown">#}
+                            {#<a href="#" class="dropdown-toggle" data-toggle="dropdown">Block Explorer <span class="caret"></span></a>#}
+                            {#<ul class="dropdown-menu" role="menu">#}
+                                {#<li><a href="{{ path('elastic_homepage') }}">Overview</a></li>#}
+                                {#&#123;&#35;<li class="divider"></li>&#35;&#125;#}
+                                {#&#123;&#35;<li><a href="#">Transactions</a></li>&#35;&#125;#}
+                                {#&#123;&#35;<li><a href="#">Blocks</a></li>&#35;&#125;#}
+                            {#</ul>#}
+                        {#</li>#}
+                        <li><a href="{{ path('elastic_homepage') }}">Block Explorer</a></li>
                         <li><a href="{{ path('elastic_peers') }}">Peers</a></li>
                         <li><a href="{{ path('elastic_faucet') }}">Faucet</a></li>
                         <li><a href="{{ path('elastic_about') }}">About</a></li>
