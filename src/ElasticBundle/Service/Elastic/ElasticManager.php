@@ -28,7 +28,7 @@ class ElasticManager
     const INPUT_DATA_TYPE_ADDRESS_RS = 3;
 
     // TODO delete offset when Elastic wallet will be fixed
-    const ELASTIC_TIME_OFFSET = 1385294399;
+    const ELASTIC_TIME_OFFSET = 1385380799;
 
     /**
      * @var string

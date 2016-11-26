@@ -30,8 +30,8 @@ class OverviewController extends AbstractBaseController
 //        $accountWorkEfficiencyPlot = $elasticManager->getAccountWorkEfficiencyPlot('10013814791103627446');
 //        $searchAccounts = $elasticManager->searchAccounts();
 
-//        $time = $elasticManager->getTime();
-//        $diff = (new \DateTime())->getTimestamp() - $time['time'];
+        $time = $elasticManager->getTime();
+        $diff = (new \DateTime())->getTimestamp() - $time['time'];
 
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
