@@ -295,6 +295,7 @@ class ElasticManager
             case 'WORK_BOUNTY': return 'Work Bounty'; break;
             case 'WORK_BOUNTY_PAYOUT': return 'Work Bounty Payout'; break;
             case 'WORK_POW': return 'Work PoW'; break;
+            case 'REDEEM_PAYMENT': return 'Redeem'; break;
 
             default: return 'Unknown'; break;
 
