@@ -10,7 +10,7 @@ services:
     redis:
         class: Redis
         calls:
-            - [ connect, [ 'localhost' ] ]
+            - [ connect, [ '%redis_host%' ] ]
     cache:
         class: Doctrine\Common\Cache\RedisCache
         calls:

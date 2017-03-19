@@ -1,23 +1,23 @@
 snc_redis:
     clients:
         default:
-            type: predis
+            type: phpredis
             alias: default
-            dsn: redis://localhost
+            dsn: redis://%redis_host%
             logging: '%kernel.debug%'
         cache:
-            type: predis
+            type: phpredis
             alias: cache
-            dsn: redis://localhost/1
+            dsn: redis://%redis_host%/1
             logging: true
         session:
-            type: predis
+            type: phpredis
             alias: session
-            dsn: redis://localhost/2
+            dsn: redis://%redis_host%/2
         monolog:
-            type: predis
+            type: phpredis
             alias: monolog
-            dsn: redis://localhost/3
+            dsn: redis://%redis_host%/3
             logging: false
     session:
         client: session

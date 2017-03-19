@@ -57,6 +57,24 @@ class FaucetController extends AbstractBaseController
 
                 }
 
+                $faucetAccount = $elasticManager->getAccount($this->getParameter('elastic_main_account_address'));
+
+                if($faucetAccount) {
+
+                    if(($faucetAccount['balanceNQT'] / ElasticManager::ELASTIC_NQT_DIVIDER) < FaucetManager::AMOUNT_TO_PAY) {
+
+                        $error = 'Not enough funds in faucet to operate properly. Consider asking for <strong>faucet support</strong> on Elastic BCT forum thread.';
+                        $valid = false;
+
+                    }
+
+                } else {
+
+                    $error = 'Not enough funds in faucet to operate properly. Consider asking for <strong>faucet support</strong> on Elastic BCT forum thread.';
+                    $valid = false;
+
+                }
+
             }
 
             if($valid) {

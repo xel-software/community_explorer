@@ -41,9 +41,9 @@ class AppKernel extends Kernel
 
     public function getCacheDir()
     {
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
-            return '/dev/shm/elastic/cache/' .  $this->getEnvironment();
-        }
+//        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+//            return '/dev/shm/elastic/cache/' .  $this->getEnvironment();
+//        }
 
         return dirname(__DIR__).'/var/cache/'.$this->getEnvironment();
     }
@@ -51,9 +51,9 @@ class AppKernel extends Kernel
     public function getLogDir()
     {
 
-        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
-            return '/dev/shm/elastic/logs/';
-        }
+//        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+//            return '/dev/shm/elastic/logs/';
+//        }
 
         return dirname(__DIR__).'/var/logs';
     }
