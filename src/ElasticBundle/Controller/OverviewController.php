@@ -18,7 +18,7 @@ class OverviewController extends AbstractBaseController
         $elasticManager = $this->get('elastic.manager.elastic');
         $blocks = $elasticManager->getBlocks(0, 99, true);
 
-        $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
+        $forging = $elasticManager->getForging();
         $topAccounts = [];
 
         if(file_exists($topAccountsFilePath) && realpath($topAccountsFilePath)) {
@@ -35,7 +35,6 @@ class OverviewController extends AbstractBaseController
 
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
-            'nextBlockGenerators' => $nextBlockGenerators,
             'topAccounts' => $topAccounts,
         ]);
     }

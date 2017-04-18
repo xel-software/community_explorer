@@ -23,5 +23,5 @@ parameters:
     elastic_cache_default_ttl: 60
     elastic_main_account_passphrase: ~
     elastic_main_account_address: ~
-
+    elastic_admin_passphrase: MgqHFlrIfoYZg7AuL1wMwuGfjK7ibfgO
     redis_host: localhost

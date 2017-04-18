@@ -13,7 +13,7 @@ use ElasticBundle\Service\CURLManager;
 class ElasticManager
 {
 
-    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-SG4T-Z44W-5JMC-657W7';
+    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-9HQ9-BXCV-TARZ-BRDNA';
 
     const ELASTIC_NQT_DIVIDER = 100000000;
 
@@ -41,6 +41,8 @@ class ElasticManager
 
     private $mainAccountPassphrase;
 
+    private $adminPassphrase;
+
     /**
      * @var \ElasticBundle\Service\CURLManager
      */
@@ -52,7 +54,7 @@ class ElasticManager
      * @param string $mainAccountPassphrase
      * @param int $daemonPort
      */
-    public function __construct(CURLManager $curlManager, $daemonAddress, $daemonPort, $mainAccountPassphrase)
+    public function __construct(CURLManager $curlManager, $daemonAddress, $daemonPort, $mainAccountPassphrase, $adminPassphrase)
     {
 
         $this->setElasticDaemonAddress($daemonAddress, $daemonPort);
@@ -60,6 +62,7 @@ class ElasticManager
         $this->curlManager = $curlManager;
         $this->mainAccountPassphrase = $mainAccountPassphrase;
         $this->elasticValidator = new ElasticValidator();
+        $this->adminPassphrase = $adminPassphrase;
 
     }
 
@@ -650,17 +653,10 @@ class ElasticManager
 
     }
 
-    public function getNextBlockGenerators($limit = 10)
+    public function getState()
     {
 
-        $query = 'getNextBlockGenerators';
-
-        if($limit && is_numeric($limit)) {
-
-            $limit = (int) $limit;
-            $query .= '&limit=' . $limit;
-
-        }
+        $query = 'getState';
 
         $result = $this->curlManager->getURL($this->daemonAddress . $query, 10);
 
@@ -670,21 +666,54 @@ class ElasticManager
 
         }
 
-        $nextBlockGenerators = json_decode($result, true);
+        $state = json_decode($result, true);
 
-        if(!$nextBlockGenerators) {
-
-            return false;
-
-        }
-
-        if(isset($nextBlockGenerators['errorCode'])) {
+        if(!$state) {
 
             return false;
 
         }
 
-        return $nextBlockGenerators;
+        if(isset($state['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $state;
+
+    }
+
+    public function getForging()
+    {
+
+        $query = 'getForging&adminPassword=';
+
+        $query = $query . $this->adminPassphrase;
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query, 10);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $forging = json_decode($result, true);
+
+        if(!$forging) {
+
+            return false;
+
+        }
+
+        if(isset($forging['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $forging;
 
     }
 
