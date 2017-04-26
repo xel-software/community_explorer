@@ -104,7 +104,7 @@
                                         <a href="{{ path('elastic_transaction',{'transaction': accountTransaction.transaction}) }}">{{ accountTransaction.transaction }}</a>
                                     </td>
                                     <td>
-                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp, true) }}
+                                        {{ translateTimestampToHumanReadable(accountTransaction.timestamp, false) }}
                                     </td>
                                     <td>
                                         <a href="{{ path('elastic_address',{'address':accountTransaction.senderRS}) }}">{{ accountTransaction.senderRS }}</a>
@@ -172,7 +172,7 @@
                                         <a href="{{ path('elastic_block',{'block': ledgerEntry.height}) }}">{{ ledgerEntry.height }}</a>
                                     </td>
                                     <td>
-                                        {{ translateTimestampToHumanReadable(ledgerEntry.timestamp, true) }}
+                                        {{ translateTimestampToHumanReadable(ledgerEntry.timestamp, false) }}
                                     </td>
                                     <td>
                                         {{ translateLedgerEntryType(ledgerEntry.eventType) }}
@@ -239,7 +239,7 @@
                                         <a href="{{ path('elastic_block',{'block': block.height}) }}">{{ block.height }}</a>
                                     </td>
                                     <td>
-                                        {{ translateTimestampToHumanReadable(block.timestamp) }}
+                                        {{ translateTimestampToHumanReadable(block.timestamp, false) }}
                                     </td>
                                     <td>
                                         {{ block.transactions|length }}
