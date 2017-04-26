@@ -15,10 +15,12 @@ class AboutController extends AbstractBaseController
         $elasticManager = $this->get('elastic.manager.elastic');
         $blockchainStatus = $elasticManager->getBlockchainStatus();
         $state = $elasticManager->getState(true);
+        $requestCount = $this->em->getRepository('ElasticBundle:Request')->findLast(1);
 
         return $this->render('ElasticBundle:About:index.html.twig',[
             'blockchainStatus' => $blockchainStatus,
-            'state' => $state
+            'state' => $state,
+            'requestCount' => $requestCount
         ]);
     }
 }

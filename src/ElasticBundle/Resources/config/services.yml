@@ -19,3 +19,9 @@ services:
             - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
         tags:
             - { name: twig.extension }
+# listeners
+    elastic.request_listener:
+        class: ElasticBundle\Event\Listener\RequestListener
+        arguments: ['@doctrine.orm.default_entity_manager']
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
