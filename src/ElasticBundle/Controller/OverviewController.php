@@ -18,7 +18,6 @@ class OverviewController extends AbstractBaseController
         $elasticManager = $this->get('elastic.manager.elastic');
         $blocks = $elasticManager->getBlocks(0, 99, true);
 
-        $forging = $elasticManager->getForging();
         $topAccounts = [];
 
         if(file_exists($topAccountsFilePath) && realpath($topAccountsFilePath)) {

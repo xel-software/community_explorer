@@ -653,10 +653,18 @@ class ElasticManager
 
     }
 
-    public function getState()
+    public function getState($includeCounts = false)
     {
 
-        $query = 'getState';
+        $query = 'getState&adminPassword=';
+
+        $query .= $this->adminPassphrase;
+
+        if($includeCounts) {
+
+            $query .= '&includeCounts=true';
+
+        }
 
         $result = $this->curlManager->getURL($this->daemonAddress . $query, 10);
 

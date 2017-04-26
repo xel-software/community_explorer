@@ -123,6 +123,73 @@
                                 </tr>
                             {% endif %}
 
+                            {% if state %}
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of Peers
+                                    </td>
+                                    <td>
+                                        {{ state.numberOfPeers }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of Active Peers
+                                    </td>
+                                    <td>
+                                        {{ state.numberOfActivePeers }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of Supernodes
+                                    </td>
+                                    <td>
+                                        {{ state.numberOfSupernodes }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of Guardnodes
+                                    </td>
+                                    <td>
+                                        {{ state.numberOfGuardnodes }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of Open Works
+                                    </td>
+                                    <td>
+                                        {{ state.numberOpenWorks }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of Closed Works
+                                    </td>
+                                    <td>
+                                        {{ state.numberClosedWorks }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of All Accounts
+                                    </td>
+                                    <td>
+                                        {{ state.numberOfAccounts }}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="text-muted">
+                                        Number of All Transactions
+                                    </td>
+                                    <td>
+                                        {{ state.numberOfTransactions }}
+                                    </td>
+                                </tr>
+                            {% endif %}
+
                             </tbody>
                             <tfoot>
                             <tr>
