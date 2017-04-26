@@ -16,6 +16,8 @@ class OverviewController extends AbstractBaseController
         $topAccountsFilePath = $this->get('kernel')->getRootDir() . '/../web/share/topXelAccounts.ser';
 
         $elasticManager = $this->get('elastic.manager.elastic');
+        $forumManager = $this->get('elastic.manager.forum');
+
         $blocks = $elasticManager->getBlocks(0, 99, true);
 
         $topAccounts = [];

@@ -11,12 +11,23 @@ services:
     elastic.manager.faucet:
             class: ElasticBundle\Service\FaucetManager
             arguments: ['@service_container']
+    elastic.manager.forum:
+            class: ElasticBundle\Service\ForumManager
+            arguments: ['@elastic.manager.curl']
+
 #TWIG EXTENSIONS
     twig.extension.elastic.elastic:
         class: ElasticBundle\Twig\Extension\ElasticExtension
         calls:
             - [ setElasticManager, [ '@elastic.manager.elastic' ] ]
             - [ setEntityManager, [ '@doctrine.orm.entity_manager' ] ]
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.elastic.forum:
+        class: ElasticBundle\Twig\Extension\ForumExtension
+        calls:
+            - [ setForumManager, [ '@elastic.manager.forum' ] ]
         tags:
             - { name: twig.extension }
 # listeners
