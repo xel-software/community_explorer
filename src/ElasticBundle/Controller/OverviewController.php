@@ -17,6 +17,7 @@ class OverviewController extends AbstractBaseController
 
         $elasticManager = $this->get('elastic.manager.elastic');
         $blocks = $elasticManager->getBlocks(0, 99, true);
+        $forging = $elasticManager->getForging();
 
         $topAccounts = [];
 
@@ -35,6 +36,7 @@ class OverviewController extends AbstractBaseController
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
             'topAccounts' => $topAccounts,
+            'forging' => $forging
         ]);
     }
 

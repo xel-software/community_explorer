@@ -28,6 +28,7 @@ class ElasticExtension extends \Twig_Extension
     public function getFunctions()
     {
         return [
+            new \Twig_SimpleFunction('getAccountEffectiveBalance', [$this, 'getAccountEffectiveBalance']),
             new \Twig_SimpleFunction('translateTransactionNumericType', [$this, 'translateTransactionNumericType']),
             new \Twig_SimpleFunction('translateTimestampToHumanReadable', [$this, 'translateTimestampToHumanReadable']),
             new \Twig_SimpleFunction('translateIpAddressToCountryName', [$this, 'translateIpAddressToCountryName']),
@@ -50,6 +51,35 @@ class ElasticExtension extends \Twig_Extension
     {
 
         $this->em = $entityManager;
+
+    }
+
+    public function getAccountEffectiveBalance($accountRS)
+    {
+
+        $accountInfo =  $this->elasticManager->getAccount($accountRS, true);
+        $effectiveBallance = null;
+
+        if(!$accountInfo) {
+
+            return 'N/A';
+
+        }
+
+        if(isset($accountInfo['effectiveBalanceNXT'])) {
+
+            $effectiveBallance = number_format($accountInfo['effectiveBalanceNXT'],2,'.',',');
+
+        }
+
+        if($effectiveBallance === false || $effectiveBallance === null) {
+
+            return 'N/A';
+
+        }
+
+        return $effectiveBallance;
+
 
     }
 
