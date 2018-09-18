@@ -26,13 +26,14 @@ class ForumManager
     public function getLatestForumPost()
     {
 
-        $latestPosts = $this->curlManager->getURL(self::FORUM_URL . '/latest.json', 60);
+        // There are no forum posts for now
+        //$latestPosts = $this->curlManager->getURL(self::FORUM_URL . '/latest.json', 60);
 
-        if(!$latestPosts) {
+        //if(!$latestPosts) {
 
             return false;
 
-        }
+        //}
 
         $readyTopic = [];
 
