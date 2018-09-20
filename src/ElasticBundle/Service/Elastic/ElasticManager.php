@@ -13,7 +13,7 @@ use ElasticBundle\Service\CURLManager;
 class ElasticManager
 {
 
-    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-9HQ9-BXCV-TARZ-BRDNA';
+    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-B7G6-TD4T-RVXR-8KEQR';
 
     const ELASTIC_NQT_DIVIDER = 100000000;
 
