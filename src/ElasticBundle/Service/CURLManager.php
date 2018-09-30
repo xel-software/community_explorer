@@ -53,7 +53,7 @@ class CURLManager
      * @return bool|mixed
      * @throws \Exception
      */
-    public function getURL($url, $cacheTTL = null)
+    public function getURL($url, $cacheTTL = null, $isJson = false)
     {
 
         if(!is_string($url)) {
@@ -89,7 +89,9 @@ class CURLManager
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
-
+        if($isJson) {
+          curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-type: application/json')); // Assuming you're requesting JSON
+        }
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36');
 
