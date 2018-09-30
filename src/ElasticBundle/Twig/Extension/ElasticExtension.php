@@ -199,7 +199,7 @@ class ElasticExtension extends \Twig_Extension
 
     public function translateIpAddressToCountryName($ip)
     {
-
+        /*
         if (!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
 
             return 'N/A';
@@ -215,7 +215,7 @@ class ElasticExtension extends \Twig_Extension
             return $countryName;
 
         }
-
+        */
         return 'N/A';
 
 
@@ -223,7 +223,7 @@ class ElasticExtension extends \Twig_Extension
 
     public function translateIpAddressToCountryCode($ip)
     {
-
+        /*
         if (!$this->elasticManager->getElasticValidator()->validateIpAddress($ip)) {
 
             return 'N/A';
@@ -239,14 +239,14 @@ class ElasticExtension extends \Twig_Extension
             return $countryCode;
 
         }
-
+        */
         return 'N/A';
 
     }
 
     public function getCountryCodeCount($peers)
     {
-
+        /*
         if (!$peers) {
 
             return false;
@@ -278,6 +278,8 @@ class ElasticExtension extends \Twig_Extension
         unset($readyArr['N/A']);
 
         return $readyArr;
+        */
+        return false;
 
     }
 
