@@ -1063,10 +1063,16 @@ class ElasticManager
 
     }
 
-    public function getNextBlockGenerators()
+    public function getNextBlockGenerators($limit = 100)
     {
 
         $query = 'getNextBlockGenerators';
+
+        if($limit === 0 || $limit > 0) {
+
+            $query .= '&limit=' . $limit;
+
+        }
 
         $result = $this->curlManager->getURL($this->daemonAddress . $query);
 
