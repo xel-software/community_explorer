@@ -1063,6 +1063,37 @@ class ElasticManager
 
     }
 
+    public function getNextBlockGenerators()
+    {
+
+        $query = 'getNextBlockGenerators';
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $blockchainStatus = json_decode($result, true);
+
+        if(!$blockchainStatus) {
+
+            return false;
+
+        }
+
+        if(isset($blockchainStatus['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $blockchainStatus;
+
+    }
+
     public function getMyInfo($cacheTTL = null)
     {
 
