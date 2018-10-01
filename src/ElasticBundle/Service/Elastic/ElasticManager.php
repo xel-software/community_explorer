@@ -113,6 +113,10 @@ class ElasticManager
 
             $query .= '&lastIndex=' . $lastIndex;
 
+            if($lastIndex > 100)
+            {
+              $query .= '&adminPassword=' . $this->adminPassphrase;
+            }
         }
 
         if($includeTransactions) {
