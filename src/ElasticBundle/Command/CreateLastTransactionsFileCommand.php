@@ -29,15 +29,15 @@ class CreateLastTransactionsFileCommand extends ContainerAwareCommand
         $elasticManager = $container->get('elastic.manager.elastic');
         $filePath = $this->getContainer()->get('kernel')->getRootDir() . '/../web/share/lastTransactions.ser';
 
-		$output->writeln('get blocks...');
-		$blocksAfter = $elasticManager->getBlocks(0, 50000, true);
+	      $output->writeln('get blocks...');
+	      $blocksAfter = $elasticManager->getBlocks(0, 50000, true);
         $allTx = array();
-        foreach ($blocksAfter['blocks'] as $block){
+        foreach ($blocksAfter['blocks'] as $block) {
   		   	if($block['transactions'])
   		   	{
 	        	$allTx = array_merge($allTx, $block['transactions']);
         	}
-    	}
+  	    }
 
         if(file_exists($filePath)) {
 

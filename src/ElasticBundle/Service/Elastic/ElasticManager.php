@@ -80,7 +80,7 @@ class ElasticManager
      * @param string $address
      * @param int $port
      */
-    private function setElasticDaemonAddress($address, $port = 7876)
+    private function setElasticDaemonAddress($address, $port = 17876)
     {
 
         $this->daemonAddress = 'http://' . $address . ':' . $port . '/nxt?requestType=';
