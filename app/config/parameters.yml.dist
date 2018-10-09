@@ -2,11 +2,7 @@
 # Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
-    database_host:     127.0.0.1
-    database_port:     ~
-    database_name:     symfony
-    database_user:     root
-    database_password: ~
+    database_path: "%kernel.root_dir%/data/elastic.db3"
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
 
@@ -19,7 +15,7 @@ parameters:
     secret:            ThisTokenIsNotSoSecretChangeIt
 
     elastic_daemon_address: 127.0.0.1
-    elastic_daemon_port: 7876
+    elastic_daemon_port: 17876
     elastic_cache_default_ttl: 60
     elastic_main_account_passphrase: ~
     elastic_main_account_address: ~

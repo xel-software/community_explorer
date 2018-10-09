@@ -14,7 +14,7 @@ use ElasticBundle\Service\Elastic\ElasticManager;
 class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 {
 
-    const MAX_ACCOUNTS = 100;
+    const MAX_ACCOUNTS = 10000;
 
     protected function configure()
     {
@@ -45,15 +45,17 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 
         $output->writeln('Trying to create list...');
 
+        $i = 0;
         while(count($accountsToCheck)) {
 
             if(count($accounts) > self::MAX_ACCOUNTS) {
-
+                $output->writeln(self::MAX_ACCOUNTS . ' accounts reached');
                 break;
 
             }
 
             foreach($accountsToCheck as $account => $accountDummy) {
+                $i++;
 
                 if(isset($accounts[$account])) {
 
@@ -62,7 +64,7 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 
                 }
 
-                $output->writeln('Checking ' . $account);
+                $output->writeln('$i - Checking ' . $account);
 
                 $accountInfo = $elasticManager->getAccount($account);
 
@@ -72,12 +74,14 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 
                 }
 
+
+
                 $output->writeln('Trying to get account transactions');
 
-                $accountTransactions = $elasticManager->getBlockchainTransactions($account, 0, 1000000, ElasticManager::TRANSACTION_TYPE_PAYMENT);
+                $accountTransactions = $elasticManager->getBlockchainTransactions($account, 0, 10000000, ElasticManager::TRANSACTION_TYPE_PAYMENT);
 
-                $output->writeln('Got account transactions');
-                $output->writeln('Processing');
+                $output->writeln('Got account transactions, processing...');
+                //$output->writeln('');
 
                 if($accountTransactions && isset($accountTransactions['transactions']) && is_array($accountTransactions['transactions']) && count($accountTransactions['transactions'])) {
 
@@ -98,7 +102,7 @@ class CreateTopBalanceAccountsFileCommand extends ContainerAwareCommand
 
                             $memoryUsage = round(memory_get_usage(false)/1024/1024,2,PHP_ROUND_HALF_UP);
 
-                            $output->writeln("<info><comment>{$memoryUsage}</comment>MiB</info>");
+                            //$output->writeln("<info><comment>{$memoryUsage}</comment>MiB</info>");
 
                             unset($accountTransactions['transactions'][$key]);
 

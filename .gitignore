@@ -1,4 +1,6 @@
 /app/config/parameters.yml
+/app/data/*
+!/app/data/empty
 /build/
 /phpunit.xml
 /var/*

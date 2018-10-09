@@ -42,12 +42,20 @@
                                     <a target="_blank" href="https://www.reddit.com/r/xel">https://www.reddit.com/r/xel</a>
                                 </td>
                             </tr>
-                            <tr>
+                             <tr>
                                 <td class="text-muted">
-                                    Official Forum
+                                    Oficial Website
                                 </td>
                                 <td>
-                                    <a target="_blank" href="https://talk.elasticexplorer.org">https://talk.elasticexplorer.org</a>
+                                    <a target="_blank" href="https://xel.org/">www.xel.org</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">
+                                    Official Discord
+                                </td>
+                                <td>
+                                    <a target="_blank" href="https://t.co/cOUwDleKeQ">Invite Link</a>
                                 </td>
                             </tr>
                             <tr>
@@ -58,7 +66,7 @@
                                     100,000,000
                                 </td>
                             </tr>
-
+                            {#
                             <tr>
                                 <td class="text-muted">
                                     USD Price
@@ -67,13 +75,13 @@
                                     N/A
                                 </td>
                             </tr>
-
+                            #}
                             <tr>
                                 <td class="text-muted">
                                     BTC Price
                                 </td>
                                 <td>
-                                    N/A
+                                    {{ btc_price }}
                                 </td>
                             </tr>
 
@@ -138,6 +146,7 @@
                                         {{ state.numberOfActivePeers }}
                                     </td>
                                 </tr>
+                                {#
                                 <tr>
                                     <td class="text-muted">
                                         Supernodes
@@ -170,6 +179,7 @@
                                         {{ state.numberClosedWorks }}
                                     </td>
                                 </tr>
+                                #}
                                 <tr>
                                     <td class="text-muted">
                                         All Accounts

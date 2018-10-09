@@ -17,18 +17,19 @@
                                     <th>Address</th>
                                     <th>Version</th>
                                     <th>Platform</th>
-                                    <th>Country</th>
+                                    {#<th>Country</th>#}
                                     <th>Last seen</th>
                                     {#<th>State</th>#}
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {% for peer in peers.peers %}
-
+                                    {#
                                     {% set peerCountry = translateIpAddressToCountryName(peer.address) %}
                                     {% if peerCountry is iterable %}
                                         {% set peerCountry = peerCountry.countryName %}
                                     {% endif %}
+                                    #}
 
                                     <tr>
                                         <td>
@@ -48,9 +49,11 @@
                                                 <span class="text-muted">N/A</span>
                                             {% endif %}
                                         </td>
+                                        {#
                                         <td{% if peerCountry == 'N/A' %} class="text-muted"{% endif %}>
                                             {{ peerCountry }}
                                         </td>
+                                        #}
                                         <td>
                                             {{ translateTimestampToHumanReadable(peer.lastUpdated, false) }}
                                         </td>
@@ -66,7 +69,7 @@
                                     <th>Address</th>
                                     <th>Version</th>
                                     <th>Platform</th>
-                                    <th>Country</th>
+                                    {#<th>Country</th>#}
                                     <th>Last seen</th>
                                     {#<th>State</th>#}
                                 </tr>
@@ -78,22 +81,24 @@
                 </div>
                 <!-- /.box -->
             </div>
+            {#
             <div class="col-xs-12">
                 <div id="world-map" style="height: 500px;">
 
                 </div>
             </div>
+            #}
         </div>
     </section>
 
 {% endblock %}
+
+{#
 {% block page_css %}
     <link rel="stylesheet" href="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.css') }}">
 {% endblock %}
+#}
 {% block page_scripts %}
-
-    <script src="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.min.js') }}"></script>
-    <script src="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-world-mill.js') }}"></script>
 
     <script>
         $('#elastic-peers').DataTable({
@@ -101,6 +106,9 @@
             "order": [[ 1, "asc" ]]
         });
     </script>
+{#
+    <script src="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-2.0.3.min.js') }}"></script>
+    <script src="{{ asset('bundles/elastic/vendor/jquery-jvectormap-2.0.3/jquery-jvectormap-world-mill.js') }}"></script>
 
     <script>
 
@@ -143,4 +151,5 @@
         });
 
     </script>
+#}
 {% endblock %}
