@@ -10,37 +10,50 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class OverviewController extends AbstractBaseController
 {
-    public function indexAction(Request $request)
-    {
+  public function indexAction(Request $request)
+  {
 
-        $topAccountsFilePath = $this->get('kernel')->getRootDir() . '/../web/share/topXelAccounts.ser';
+      $topAccountsFilePath = $this->get('kernel')->getRootDir() . '/../web/share/topXelAccounts.ser';
+      $lastTransactionsFilePath = $this->get('kernel')->getRootDir() . '/../web/share/lastTransactions.ser';
 
-        $elasticManager = $this->get('elastic.manager.elastic');
-        $forumManager = $this->get('elastic.manager.forum');
+      $elasticManager = $this->get('elastic.manager.elastic');
+      $forumManager = $this->get('elastic.manager.forum');
 
       $blocks = $elasticManager->getBlocks(0, 99, false);
       $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
 
-        $topAccounts = [];
+      $topAccounts = [];
+      if(file_exists($topAccountsFilePath) && realpath($topAccountsFilePath)) {
+          $topAccounts = unserialize(file_get_contents($topAccountsFilePath));
+      }
 
-        if(file_exists($topAccountsFilePath) && realpath($topAccountsFilePath)) {
-
-            $topAccounts = unserialize(file_get_contents($topAccountsFilePath));
-
+      $allTx = [];
+      if(file_exists($lastTransactionsFilePath) && realpath($lastTransactionsFilePath)) {
+          $allTx = unserialize(file_get_contents($lastTransactionsFilePath));
+      }
+      else {
+        $blocksAfter = $elasticManager->getBlocks(0, 5000, true);
+        foreach ($blocksAfter['blocks'] as $block){
+          if($block['transactions'])
+          {
+            $allTx = array_merge($allTx, $block['transactions']);
+          }
         }
+      }
 
 //        $accountWorkEfficiencyPlot = $elasticManager->getAccountWorkEfficiencyPlot('10013814791103627446');
 //        $searchAccounts = $elasticManager->searchAccounts();
 
-        $time = $elasticManager->getTime();
-        $diff = (new \DateTime())->getTimestamp() - $time['time'];
+      $time = $elasticManager->getTime();
+      $diff = (new \DateTime())->getTimestamp() - $time['time'];
 
-        return $this->render('ElasticBundle:Overview:index.html.twig',[
-            'blocks' => $blocks,
+      return $this->render('ElasticBundle:Overview:index.html.twig',[
+          'blocks' => $blocks,
           'nextBlockGenerators' => $nextBlockGenerators,
-            'topAccounts' => $topAccounts
-        ]);
-    }
+          'allTx' => $allTx,
+          'topAccounts' => $topAccounts
+      ]);
+  }
 
     public function searchAction(Request $request)
     {

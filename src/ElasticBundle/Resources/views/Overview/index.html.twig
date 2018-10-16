@@ -74,7 +74,7 @@
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
-                    {% if transactions|length %}
+                    {% if allTx|length %}
                         <table id="elastic-transactions" class="table table-bordered table-striped">
                             <thead>
                             <tr>
@@ -87,7 +87,7 @@
                             </tr>
                             </thead>
                             <tbody>
-                            {% for transaction in transactions %}
+                            {% for transaction in allTx %}
                                 <tr>
                                     <td>
                                         <a href="#">{{ transaction.timestamp }}</a>
