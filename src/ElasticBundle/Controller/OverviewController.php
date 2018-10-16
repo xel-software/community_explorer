@@ -18,7 +18,8 @@ class OverviewController extends AbstractBaseController
         $elasticManager = $this->get('elastic.manager.elastic');
         $forumManager = $this->get('elastic.manager.forum');
 
-        $blocks = $elasticManager->getBlocks(0, 99, true);
+      $blocks = $elasticManager->getBlocks(0, 99, false);
+      $nextBlockGenerators = $elasticManager->getNextBlockGenerators();
 
         $topAccounts = [];
 
@@ -36,6 +37,7 @@ class OverviewController extends AbstractBaseController
 
         return $this->render('ElasticBundle:Overview:index.html.twig',[
             'blocks' => $blocks,
+          'nextBlockGenerators' => $nextBlockGenerators,
             'topAccounts' => $topAccounts
         ]);
     }

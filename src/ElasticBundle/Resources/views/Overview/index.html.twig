@@ -131,96 +131,97 @@
             </div>
             <!-- /.box -->
         </div>
-        {#<div class="col-xs-12 col-lg-6">#}
-            {#<div class="box">#}
-                {#<div class="box-header">#}
-                    {#<h3 class="box-title">Next block generators ( {% if nextBlockGenerators %}{{ nextBlockGenerators.activeCount }}{% else %}0{% endif %} accounts forging )</h3>#}
-                {#</div>#}
-                {#<!-- /.box-header -->#}
-                {#<div class="box-body">#}
-                    {#{% if nextBlockGenerators and nextBlockGenerators.generators|length %}#}
-                        {#<table id="elastic-next-block-generators" class="table table-bordered table-striped">#}
-                            {#<thead>#}
-                            {#<tr>#}
-                                {#<th>HitTime</th>#}
-                                {#<th>Effective Balance</th>#}
-                                {#<th>Account</th>#}
-                                {#<th>Hit</th>#}
-                            {#</tr>#}
-                            {#</thead>#}
-                            {#<tbody>#}
-                            {#{% for generator in nextBlockGenerators.generators %}#}
-                                {#<tr>#}
-                                    {#<td>#}
-                                        {#{{ generator.hitTime }}#}
-                                    {#</td>#}
-                                    {#<td>#}
-                                        {#{{ generator.effectiveBalanceNXT|number_format(2, '.', ',') }}#}
-                                    {#</td>#}
-                                    {#<td>#}
-                                        {#<a href="{{ path('elastic_address',{'address':generator.accountRS}) }}">{{ generator.accountRS }}</a>#}
-                                    {#</td>#}
-                                    {#<td>#}
-                                        {#{{ translateHitTimeToHumanReadable(generator.hitTime, true) }}#}
-                                    {#</td>#}
-                                {#</tr>#}
-                            {#{% endfor %}#}
-                            {#</tbody>#}
-                            {#<tfoot>#}
-                            {#<tr>#}
-                                {#<th>HitTime</th>#}
-                                {#<th>Efective Balance</th>#}
-                                {#<th>Account</th>#}
-                                {#<th>Hit</th>#}
-                            {#</tr>#}
-                            {#</tfoot>#}
-                        {#</table>#}
-                    {#{% endif %}#}
-                {#</div>#}
-                {#<!-- /.box-body -->#}
-            {#</div>#}
-            {#<!-- /.box -->#}
-        {#</div>#}
-        {#<div class="col-xs-12 col-lg-12">#}
-            {#<div class="box">#}
-                {#<div class="box-header">#}
-                    {#<h3 class="box-title">Top balance accounts</h3>#}
-                {#</div>#}
-                {#<!-- /.box-header -->#}
-                {#<div class="box-body">#}
-                    {#{% if topAccounts and topAccounts|length %}#}
-                        {#<table id="elastic-top-accounts" class="table table-bordered table-striped">#}
-                            {#<thead>#}
-                            {#<tr>#}
-                                {#<th>Address</th>#}
-                                {#<th>Balance</th>#}
-                            {#</tr>#}
-                            {#</thead>#}
-                            {#<tbody>#}
-                            {#{% for accountRS,accountBalance  in topAccounts %}#}
-                                {#<tr>#}
-                                    {#<td>#}
-                                        {#<a href="{{ path('elastic_address', {'address':accountRS}) }}">{{ accountRS }}</a>#}
-                                    {#</td>#}
-                                    {#<td>#}
-                                        {#{{ accountBalance|number_format(2, '.', ',') }}#}
-                                    {#</td>#}
-                                {#</tr>#}
-                            {#{% endfor %}#}
-                            {#</tbody>#}
-                            {#<tfoot>#}
-                            {#<tr>#}
-                                {#<th>Address</th>#}
-                                {#<th>Balance</th>#}
-                            {#</tr>#}
-                            {#</tfoot>#}
-                        {#</table>#}
-                    {#{% endif %}#}
-                {#</div>#}
-                {#<!-- /.box-body -->#}
-            {#</div>#}
-            {#<!-- /.box -->#}
-        {#</div>#}
+
+        <div class="col-xs-12 col-lg-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Next block generators ( {% if nextBlockGenerators %}{{ nextBlockGenerators.activeCount }}{% else %}0{% endif %} accounts forging )</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if nextBlockGenerators and nextBlockGenerators.generators|length %}
+                        <table id="elastic-next-block-generators" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>HitTime</th>
+                                <th>Effective Balance</th>
+                                <th>Account</th>
+                                <th>Hit</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for generator in nextBlockGenerators.generators %}
+                                <tr>
+                                    <td>
+                                        {{ generator.hitTime }}
+                                    </td>
+                                    <td>
+                                        {{ generator.effectiveBalanceNXT|number_format(2, '.', ',') }}
+                                    </td>
+                                    <td>
+                                        <a href="{{ path('elastic_address',{'address':generator.accountRS}) }}">{{ generator.accountRS }}</a>
+                                    </td>
+                                    <td>
+                                        {{ translateHitTimeToHumanReadable(generator.hitTime, true) }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>HitTime</th>
+                                <th>Efective Balance</th>
+                                <th>Account</th>
+                                <th>Hit</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <div class="box">
+                <div class="box-header">
+                    <h3 class="box-title">Top balance accounts</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    {% if topAccounts and topAccounts|length %}
+                        <table id="elastic-top-accounts" class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Balance</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for accountRS,accountBalance  in topAccounts %}
+                                <tr>
+                                    <td>
+                                        <a href="{{ path('elastic_address', {'address':accountRS}) }}">{{ accountRS }}</a>
+                                    </td>
+                                    <td>
+                                        {{ accountBalance|number_format(2, '.', ',') }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                            <tfoot>
+                            <tr>
+                                <th>Address</th>
+                                <th>Balance</th>
+                            </tr>
+                            </tfoot>
+                        </table>
+                    {% endif %}
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+        </div>
     </div>
 </section>
 
