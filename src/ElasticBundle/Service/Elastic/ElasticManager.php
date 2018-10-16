@@ -13,7 +13,7 @@ use ElasticBundle\Service\CURLManager;
 class ElasticManager
 {
 
-    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-9HQ9-BXCV-TARZ-BRDNA';
+    const ELASTIC_GENESIS_ACCOUNT_RS = 'XEL-B7G6-TD4T-RVXR-8KEQR';
 
     const ELASTIC_NQT_DIVIDER = 100000000;
 
@@ -80,7 +80,7 @@ class ElasticManager
      * @param string $address
      * @param int $port
      */
-    private function setElasticDaemonAddress($address, $port = 7876)
+    private function setElasticDaemonAddress($address, $port = 17876)
     {
 
         $this->daemonAddress = 'http://' . $address . ':' . $port . '/nxt?requestType=';
@@ -113,6 +113,10 @@ class ElasticManager
 
             $query .= '&lastIndex=' . $lastIndex;
 
+            if($lastIndex > 100)
+            {
+              $query .= '&adminPassword=' . $this->adminPassphrase;
+            }
         }
 
         if($includeTransactions) {
@@ -1036,6 +1040,43 @@ class ElasticManager
     {
 
         $query = 'getBlockchainStatus';
+
+        $result = $this->curlManager->getURL($this->daemonAddress . $query);
+
+        if(!$result) {
+
+            return false;
+
+        }
+
+        $blockchainStatus = json_decode($result, true);
+
+        if(!$blockchainStatus) {
+
+            return false;
+
+        }
+
+        if(isset($blockchainStatus['errorCode'])) {
+
+            return false;
+
+        }
+
+        return $blockchainStatus;
+
+    }
+
+    public function getNextBlockGenerators($limit = 100)
+    {
+
+        $query = 'getNextBlockGenerators';
+
+        if($limit === 0 || $limit > 0) {
+
+            $query .= '&limit=' . $limit;
+
+        }
 
         $result = $this->curlManager->getURL($this->daemonAddress . $query);
 
