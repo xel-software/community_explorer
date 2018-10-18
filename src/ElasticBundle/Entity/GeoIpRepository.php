@@ -13,11 +13,11 @@ class GeoIpRepository extends EntityRepository
 
     public function findCountryNameByIpAddress($ip)
     {
-
+        $ipLong = ip2long($ip);
         $q = $this->createQueryBuilder('g')
             ->select('g.countryName')
-            ->where('INET_ATON(:ip) BETWEEN g.ipStartNum AND g.ipEndNum')
-            ->setParameter('ip', $ip)
+            ->where(':ip BETWEEN g.ipStartNum AND g.ipEndNum')
+            ->setParameter('ip', $ipLong)
             ->getQuery()
             ->useQueryCache(true)
             ->useResultCache(true, 86400)
@@ -30,11 +30,11 @@ class GeoIpRepository extends EntityRepository
 
     public function findCountryCodeByIpAddress($ip)
     {
-
+        $ipLong = ip2long($ip);
         $q = $this->createQueryBuilder('g')
             ->select('g.countryCode')
-            ->where('INET_ATON(:ip) BETWEEN g.ipStartNum AND g.ipEndNum')
-            ->setParameter('ip', $ip)
+            ->where(':ip BETWEEN g.ipStartNum AND g.ipEndNum')
+            ->setParameter('ip', $ipLong)
             ->getQuery()
             ->useQueryCache(true)
             ->useResultCache(true, 86400)

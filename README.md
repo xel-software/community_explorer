@@ -11,7 +11,6 @@ the best way is to use the docker installer : https://github.com/xel-software/xe
 
 ### prerequisites
 
-- mysql server
 - php/redis and a webserver
 - composer
 
@@ -19,20 +18,15 @@ the best way is to use the docker installer : https://github.com/xel-software/xe
 
 here an indicative list of steps to install, **be aware that this is a guideline, some steps might not work as expected** :
 
-here, we are using a database named `elastic`, with a user `elastic` and the password is `elastic` (strongly advised to change this)
-
 ```
 apt-get update
 apt-get -y install apt-utils git curl gnupg zip unzip cron dos2unix
 apt-get -y install mysql-server mysql-client
 apt-get -y install nginx redis-server python-pip python-dev gcc
-apt-get -y install php-fpm php-xml php-mbstring php-redis php-mysql php-curl libmysqlclient-dev
-pip install --upgrade pip MySQL-python
+apt-get -y install php-fpm php-xml php-mbstring php-redis php-curl php-sqlite3 libsqlite3-0 libsqlite3-dev sqlite3
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 git clone --depth 1 https://github.com/xel-software/xel-block-explorer /var/www/xel-explorer
 
-mysql --user=root --password=root -e "CREATE DATABASE elastic"
-mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON elastic.* TO 'elastic'@'localhost' IDENTIFIED BY 'elastic';"
 cd /var/www/xel-explorer
 ./deploy.sh
 ```
@@ -78,10 +72,6 @@ server {
 ```
 
 # howto
-
-- load geoip database (after the first installation):
-
-`php bin/console doctrine:fixtures:load -q`
 
 - update top balances (you might want to use a cron job) :
 

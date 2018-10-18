@@ -6,8 +6,9 @@ COMPOSER=$(which composer)
 CHOWN=$(which chown)
 
 cd "$APP_DIR" && $COMPOSER install
-php "$APP_DIR/bin/console" doctrine:schema:update --force
-php "$APP_DIR/bin/console" doctrine:cache:clear-result
+#php "$APP_DIR/bin/console" doctrine:database:create
+#php "$APP_DIR/bin/console" doctrine:schema:update --force
+#php "$APP_DIR/bin/console" doctrine:cache:clear-result
 php "$APP_DIR/bin/console" doctrine:cache:clear-query
 php "$APP_DIR/bin/console" doctrine:cache:clear-metadata
 php "$APP_DIR/bin/console" cache:clear --env=prod
