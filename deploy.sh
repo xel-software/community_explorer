@@ -10,7 +10,6 @@ php "$APP_DIR/bin/console" doctrine:schema:update --force
 php "$APP_DIR/bin/console" doctrine:cache:clear-result
 php "$APP_DIR/bin/console" doctrine:cache:clear-query
 php "$APP_DIR/bin/console" doctrine:cache:clear-metadata
-php "$APP_DIR/bin/console" doctrine:fixtures:load >/dev/null
 php "$APP_DIR/bin/console" cache:clear --env=prod
 php "$APP_DIR/bin/console" assets:install web
 cd "$APP_DIR" && $COMPOSER dump-autoload --optimize

@@ -30,7 +30,6 @@ apt-get -y install php-fpm php-xml php-mbstring php-redis php-mysql php-curl lib
 pip install --upgrade pip MySQL-python
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 git clone --depth 1 https://github.com/xel-software/xel-block-explorer /var/www/xel-explorer
-sed -i 's/^\(bind .*\)$/# \1/' /etc/redis/redis.conf
 
 mysql --user=root --password=root -e "CREATE DATABASE elastic"
 mysql --user=root --password=root -e "GRANT ALL PRIVILEGES ON elastic.* TO 'elastic'@'localhost' IDENTIFIED BY 'elastic';"
@@ -80,10 +79,14 @@ server {
 
 # howto
 
-- update top balances :
+- load geoip database (after the first installation):
+
+`php bin/console doctrine:fixtures:load -q`
+
+- update top balances (you might want to use a cron job) :
 
 `php bin/console elastic:createtopbalanceaccountsfile`
 
-- update last transactions :
+- update last transactions (you might want to use a cron job) :
 
 `php bin/console elastic:createlasttransactionsfile`

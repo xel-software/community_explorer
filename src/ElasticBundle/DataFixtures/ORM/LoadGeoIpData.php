@@ -95,11 +95,11 @@ class LoadRoleData implements FixtureInterface, OrderedFixtureInterface
 
                 }
 
+                /*
                 if($count > 50000) {
-
                     break;
-
                 }
+                */
             }
 
         }
