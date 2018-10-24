@@ -17,3 +17,6 @@
 .idea/
 /src/ElasticBundle/Resources/faucet/*
 /web/share/topXelAccounts.ser
+.project
+.settings
+.classpath
