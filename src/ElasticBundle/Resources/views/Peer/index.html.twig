@@ -52,6 +52,7 @@
                                             {{ peerCountry }}
                                         </td>
                                         <td>
+                                            <span style="display:none">{{ peer.lastUpdated }}</span>
                                             {{ translateTimestampToHumanReadable(peer.lastUpdated, false) }}
                                         </td>
                                         {#<td>#}
@@ -98,7 +99,7 @@
     <script>
         $('#elastic-peers').DataTable({
             "searching": false,
-            "order": [[ 1, "asc" ]]
+            "order": [[ 4, "desc" ]]
         });
     </script>
 
