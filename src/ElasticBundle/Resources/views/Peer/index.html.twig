@@ -19,7 +19,7 @@
                                     <th>Platform</th>
                                     <th>Country</th>
                                     <th>Last seen</th>
-                                    {#<th>State</th>#}
+                                    <th>State</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -55,10 +55,9 @@
                                             <span style="display:none">{{ peer.lastUpdated }}</span>
                                             {{ translateTimestampToHumanReadable(peer.lastUpdated, false) }}
                                         </td>
-                                        {#<td>#}
-                                            {#&#123;&#35;<span class="text-muted">N/A</span>&#35;&#125;#}
-                                            {#{% if peer.inboundWebSocket or peer.outboundWebSocket %}<span class="label label-success">UP</span>{% else %}<span class="label label-default">DOWN</span>{% endif %}#}
-                                        {#</td>#}
+                                        <td>
+                                            {% if peer.inboundWebSocket or peer.outboundWebSocket or peer.state == 1 %}<span class="label label-success">UP</span>{% else %}<span class="label label-default">DOWN</span>{% endif %}
+                                        </td>
                                     </tr>
                                 {% endfor %}
                                 </tbody>
@@ -69,7 +68,7 @@
                                     <th>Platform</th>
                                     <th>Country</th>
                                     <th>Last seen</th>
-                                    {#<th>State</th>#}
+                                    <th>State</th>
                                 </tr>
                                 </tfoot>
                             </table>
@@ -99,7 +98,7 @@
     <script>
         $('#elastic-peers').DataTable({
             "searching": false,
-            "order": [[ 4, "desc" ]]
+            "order": [[ 5, "desc" ], [ 4, "desc" ]]
         });
     </script>
 
