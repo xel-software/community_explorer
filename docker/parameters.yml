@@ -1,0 +1,15 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_path: '%kernel.root_dir%/data/elastic.db3'
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: changeme
+    elastic_daemon_address: 172.20.0.5
+    elastic_daemon_port: 17876
+    elastic_cache_default_ttl: 60
+    elastic_main_account_passphrase: null
+    elastic_main_account_address: null
+    elastic_admin_passphrase: changeme
+    redis_host: localhost
